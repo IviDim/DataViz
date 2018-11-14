@@ -1,0 +1,177 @@
+/*-----------Left panel--------------*/
+
+html {
+  height: 100%;
+}
+
+body {
+
+	background-color: silver;
+	height: 100%;
+}
+
+.full-height {
+
+	height: 100%;
+}
+
+#page-title {
+
+	text-align:center;
+	margin-top: 0.5%;
+	margin-bottom: -0.6%;
+	color: DarkSlateGray;
+}
+
+#level-1-container {
+
+	margin-top: 1.5%;
+	background-color: #262626;
+	color:lightgrey;
+  	height: 100%;
+}
+
+#category-filter-title {
+
+	background-color: #262626;
+	border-top: none;
+}
+
+#category-filter li{
+
+	color: #e6e6e6;
+	font-family: "Arial", Times, serif;
+	border-color: #333333;
+	border-left: none;
+	border-right: none;
+	border-width: 1.5px;
+}
+
+#category-filter li:not(#category-filter-title) {
+
+	background-color: #404040;
+}
+
+#category-filter h6 {
+
+	font-weight: bold;
+	margin-top: 3%;
+	margin-bottom: 3%;
+	margin-left: 6%;
+}
+
+input checkbox {
+
+	cursor: pointer;
+}
+
+label {
+
+	cursor: pointer;
+}
+
+/*-----------Middle panel--------------*/
+
+#scatterplot {
+
+	background-color: white;
+}
+
+#canvas {
+
+	fill: #f2f2f2;
+}
+
+/*.axis {
+	stroke-width: 1;
+	fill: rgb(200, 200, 200);
+}*/
+
+.axis line, .axis path {
+	fill: none;
+	stroke: #000;
+	shape-rendering: crispEdges;
+}
+
+text {
+	fill: black;
+	font-size: 4.5px;
+	text-anchor: middle;
+}
+
+.sports {
+	fill: #cc0052;
+	color: #cc0052;
+}
+
+.music {
+	fill: #b366ff;
+	color: #b366ff;
+}
+
+.movies {
+	fill: #6666ff;
+	color: #6666ff;
+}
+
+circle:not(.event-selected) {
+	
+	opacity: 0.2;
+}
+
+.event-selected {
+
+	opacity: 1.0;
+}
+
+/*------------Right panel---------------*/
+
+
+#event-filter-title {
+
+	background-color: #262626;
+	border-top: none;
+	color: #e6e6e6;
+	font-family: "Arial", Times, serif;
+	border-color: #333333;
+}
+
+#event-filter-title h6 {
+
+	font-weight: bold;
+	margin-top: 3%;
+	margin-bottom: 3%;
+	text-align: center;
+}
+
+#selected-events-jumb {
+
+	background-color: #b3b3b3;
+	height: 15%;
+}
+
+.badge {
+
+	opacity: 0.8;
+}
+
+.fa-times { 
+	cursor: pointer; 
+}
+
+.card { 
+	
+	background-color: #404040;
+	border-width: 1.5px;
+	border-color: #333333;
+}
+
+.card button {
+
+	color: #e6e6e6;
+}
+
+.card button:hover {
+
+	color:black;
+}

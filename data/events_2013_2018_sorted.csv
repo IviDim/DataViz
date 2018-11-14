@@ -1,0 +1,48 @@
+id;name;date;year;month;category
+1;Harlem Shake;1. Feb. 2013;2013;2;Viral
+2;Oscar Pistorius murders his girlfriend;14. Feb. 2013;2013;2;Viral
+3;Pope Francis’ election;13. Mar. 2013;2013;3;Politics
+4;Boston Marathon bombing;15. Apr. 2013;2013;4;Social
+5;Edward Snowden NSA leak;1. Jun. 2013;2013;6;Social
+6;North Kardashian West’s birth;6. Jun. 2013;2013;6;Viral
+7;Egyptian coup d’ état;3. Jul. 2013;2013;7;Politics
+8;Ghouta chemical attack (Syria);21. Aug. 2013;2013;8;Social
+9;Paul Walker’s death;30. Nov. 2013;2013;11;Viral
+10;Ebola outbreak in West Africa;1. Dec. 2013;2013;12;Social
+11;Nelson Mandela’s death;5. Dec. 2013;2013;12;Politics
+12;Malaysian Airlines MH370 disappearance;8. Mar. 2014;2014;3;Social
+13;FIFA World Cup 2014 (Brazil);12. Jun. 2014;2014;6;Sports
+14;Malaysian Airlines MH17 shot down;17. Jul. 2014;2014;7;Social
+15;Shooting of Michael Brown (Ferguson shooting);9. Aug. 2014;2014;8;Social
+16;Robin Williams’ suicide;11. Aug. 2014;2014;8;Viral
+17;Scotland UK referendum;18. Sep. 2014;2014;9;Politics
+18;Rosetta spacecraft lands on comet;12. Nov. 2014;2014;11;Science
+19;#BreakTheInternet by Kim Kardashian;12. Nov. 2014;2014;11;Viral
+20;Peshawar school massacre (Pakistan);16. Dec. 2014;2014;12;Social
+21;Charlie Hebdo shooting (Paris, France);7. Jan. 2015;2015;1;Social
+22;Germanwings flight 9525 plane crash;24. Mar. 2015;2015;3;Social
+23;Garissa University College attack (Kenya);2. Apr. 2015;2015;4;Social
+24;Nepal magn. 7.8 and 7.3 earthquakes;25. Apr. 2015;2015;4;Social
+25;John Forbes Nash’s death;23. May. 2015;2015;5;Viral
+26;Christopher Lee’s death;7. Jun. 2015;2015;6;Viral
+27;Cuba and USA reestablish diplomatic relations;1. Jul. 2015;2015;7;Politics
+28;Greek bailout referendum;5. Jul. 2015;2015;7;Politics
+29;Volkswagen emissions scandal;18. Sep. 2015;2015;9;Viral
+30;Ankara bombings;10. Oct. 2015;2015;10;Social
+31;Paris terrorist attacks;13. Nov. 2015;2015;11;Social
+32;Paris agreement for climate change;12. Dec. 2015;2015;12;Politics
+33;SpaceX lands Falcon 9;21. Dec. 2015;2015;12;Science
+34;Lemmy’s death;28. Dec. 2015;2015;12;Viral
+35;Zika virus outbreak in America;28. Jan. 2016;2016;1;Social
+36;Obama visit to Cuba;21. Mar. 2016;2016;3;Politics
+37;Brussels Airport attack;22. Mar. 2016;2016;3;Social
+38;Panama papers data leak;9. May. 2016;2016;5;Viral
+39;EgyptAir flight 804 crash;19. May. 2016;2016;5;Social
+40;UK referendum to leave the EU;23. Jun. 2016;2016;6;Politics
+41;Ataturk Airport attack;28. Jun. 2016;2016;6;Social
+42;Juno spacecraft enters Jupiter’s orbit;5. Jul. 2016;2016;7;Science
+43;Pokemon Go! release;6. Jul. 2016;2016;7;Viral
+44;Bastille day attack (Nice, France);14. Jul. 2016;2016;7;Social
+45;Turkish coup d’ état attempt;15. Jul. 2016;2016;7;Politics
+46;Burkini ban (France);1. Aug. 2016;2016;8;Politics
+47;2016 Summer Olympics (Rio, Brazil);5. Aug. 2016;2016;8;Sports
