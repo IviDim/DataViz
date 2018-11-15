@@ -28,7 +28,7 @@
 	<script src="https://d3js.org/d3.v5.min.js"></script>
 
 	<!-- JS scripts -->
-	<script type="text/javascript" src="./assets/js/data_dependent_vis.js"></script>
+	<script type="text/javascript" src="./assets/js/article_and_category_addition.js"></script>
 	<script type="text/javascript" src="./assets/js/filter_by_category.js"></script>
 	<script type="text/javascript" src="./assets/js/event_addition.js"></script>
 
@@ -57,7 +57,7 @@
 	    <div class="col-sm-2">
 	      
 	    	<div id="event-filter-title" class="list-group-item">
-					 <h6> Filter by Events </h6>
+				 	<h6> Filter by Events </h6>
 				</div>
 
 	      <div id="selected-events-jumb">
@@ -87,7 +87,7 @@
 				  <div class="card">
 				    <div class="card-header">
 				      <h6 class="mb-0">
-				        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+				        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#events-politics" aria-expanded="false" aria-controls="collapseOne">
 
 				          Politics 
 				          <i class="fas fa-chevron-down" aria-hidden="true"></i>
@@ -95,9 +95,9 @@
 				        </button>
 				      </h6>
 				    </div>
-				    <div id="collapseOne" class="collapse" data-parent="#event-categories">
+				    <div id="events-politics" class="collapse" data-parent="#event-categories">
 				      <div class="card-body">
-				    		Text1
+				      	<ul class="list-group scrollable" ></ul>
 				      </div>
 				    </div>
 				  </div>
@@ -106,7 +106,7 @@
 				  <div class="card">
 				    <div class="card-header">
 				      <h6 class="mb-0">
-				        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+				        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#events-social" aria-expanded="false" aria-controls="collapseTwo">
 
 				          Social crises
 				          <i class="fas fa-chevron-down" aria-hidden="true"></i>
@@ -114,9 +114,9 @@
 				        </button>
 				      </h6>
 				    </div>
-				    <div id="collapseTwo" class="collapse" data-parent="#event-categories">
+				    <div id="events-social" class="collapse" data-parent="#event-categories">
 				      <div class="card-body">
-				    		Text2
+				      	<ul class="list-group scrollable" ></ul>
 				      </div>
 				    </div>
 				  </div>
@@ -125,7 +125,7 @@
 				  <div class="card">
 				    <div class="card-header">
 				      <h6 class="mb-0">
-				        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+				        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#events-science" aria-expanded="false" aria-controls="collapseThree">
 
 				          Science and Technology
 				          <i class="fas fa-chevron-down" aria-hidden="true"></i>
@@ -133,9 +133,9 @@
 				        </button>
 				      </h6>
 				    </div>
-				    <div id="collapseThree" class="collapse" data-parent="#event-categories">
+				    <div id="events-science" class="collapse" data-parent="#event-categories">
 				      <div class="card-body">
-				        Text3
+				      	<ul class="list-group scrollable" ></ul>
 				      </div>
 				    </div>
 				  </div>
@@ -145,7 +145,7 @@
 				  <div class="card">
 				    <div class="card-header">
 				      <h6 class="mb-0">
-				        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+				        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#events-sports" aria-expanded="false" aria-controls="collapseFour">
 				        		
 				          Sports
 			          	<i class="fas fa-chevron-down" aria-hidden="true"></i>
@@ -153,9 +153,9 @@
 				        </button>
 				      </h6>
 				    </div>
-				    <div id="collapseFour" class="collapse" data-parent="#event-categories">
+				    <div id="events-sports" class="collapse" data-parent="#event-categories">
 				      <div class="card-body">
-				        Text4
+				      	<ul class="list-group scrollable" ></ul>
 				      </div>
 				    </div>
 				  </div>
@@ -164,7 +164,7 @@
 				  <div class="card">
 				    <div class="card-header">
 				      <h6 class="mb-0">
-				        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+				        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#events-viral" aria-expanded="false" aria-controls="collapseFive">
 
 				          Showbiz & Viral Trends
 				          <i class="fas fa-chevron-down" aria-hidden="true"></i>
@@ -172,9 +172,9 @@
 				        </button>
 				      </h6>
 				    </div>
-				    <div id="collapseFive" class="collapse" data-parent="#event-categories">
+				    <div id="events-viral" class="collapse" data-parent="#event-categories">
 				      <div class="card-body">
-				        Text5
+				      	<ul class="list-group scrollable" ></ul>
 				      </div>
 				    </div>
 				  </div>

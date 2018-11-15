@@ -102,7 +102,8 @@ class ArticleCategories {
 								.data(unique_categories)
 								.enter()
 								.append("li")
-								.attr("class", "list-group-item")
+									.classed("list-group-item", true)
+									.classed("inline-field", true);
 
 		li.append("input")
 			.attr("type", "checkbox")
@@ -114,9 +115,7 @@ class ArticleCategories {
 		li.append("label")
 			.attr("for", d => d.toLowerCase())
 			.attr("class", d => d.toLowerCase() + " event-selected")
-			.text(d => " " + d);
-
-		li.append("br");
+			.text(d => d);
 	}
 }
 

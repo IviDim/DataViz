@@ -37,7 +37,7 @@ body {
 	border-top: none;
 }
 
-#category-filter li{
+#category-filter li {
 
 	color: #e6e6e6;
 	font-family: "Arial", Times, serif;
@@ -47,7 +47,7 @@ body {
 	border-width: 1.5px;
 }
 
-#category-filter li:not(#category-filter-title) {
+#category-filter li:not(#category-filter-title), .event-checkbox {
 
 	background-color: #404040;
 }
@@ -126,7 +126,6 @@ circle:not(.event-selected) {
 
 /*------------Right panel---------------*/
 
-
 #event-filter-title {
 
 	background-color: #262626;
@@ -148,6 +147,38 @@ circle:not(.event-selected) {
 
 	background-color: #b3b3b3;
 	height: 15%;
+}
+
+.scrollable {
+
+	max-height: 250px;
+	overflow-y: scroll;
+}
+
+.event-checkbox {
+
+	font-family: "Arial", Times, serif;
+	font-size: 14px;
+	border: none;
+	word-wrap: normal;
+}
+
+.inline-field input, .inline-field label {
+
+	display: block;
+	vertical-align: middle;
+}
+
+.inline-field label {
+
+	margin-left: 10px;
+}
+
+.inline-field input {
+
+	margin-top: 5px;
+	margin-left: -10px;
+	float:left;
 }
 
 .badge {
