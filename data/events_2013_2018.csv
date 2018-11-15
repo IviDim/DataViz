@@ -1,0 +1,51 @@
+id,name,date,year,month,category
+1,Pope Francis’ election,13. Mar. 2013,2013,March,Politics
+2,Boston Marathon bombing,15. Apr. 2013,2013,April,Social
+3,Ghouta chemical attack (Syria),21. Aug. 2013,2013,August,Social
+4,Nelson Mandela’s death,5. Dec. 2013,2013,December,Politics
+5,Paul Walker’s death,30. Nov. 2013,2013,November,Viral
+6,Harlem Shake,1. Feb. 2013,2013,February,Viral
+7,Edward Snowden NSA leak,1. Jun. 2013,2013,June,Social
+8,Oscar Pistorius murders his girlfriend,14. Feb. 2013,2013,February,Viral
+9,North Kardashian West’s birth,6. Jun. 2013,2013,June,Viral
+10,Egyptian coup d’ état,3. Jul. 2013,2013,July,Politics
+11,Ebola outbreak in West Africa,1. Dec. 2013,2013,December,Social
+,,,,,
+12,Malaysian Airlines MH370 disappearance,8. Mar. 2014,2014,March,Social
+13,Malaysian Airlines MH17 shot down,17. Jul. 2014,2014,July,Social
+14,FIFA World Cup 2014 (Brazil),12. Jun. 2014,2014,June,Sports
+15,Robin Williams’ suicide,11. Aug. 2014,2014,August,Viral
+16,Scotland UK referendum,18. Sep. 2014,2014,September,Politics
+17,Shooting of Michael Brown (Ferguson shooting),9. Aug. 2014,2014,August,Social
+18,Rosetta spacecraft lands on comet,12. Nov. 2014,2014,November,Science
+19,#BreakTheInternet by Kim Kardashian,12. Nov. 2014,2014,November,Viral
+20,Peshawar school massacre (Pakistan),16. Dec. 2014,2014,December,Social
+,,,,,
+21,"Charlie Hebdo shooting (Paris, France)",7. Jan. 2015,2015,January,Social
+22,Germanwings flight 9525 plane crash,24. Mar. 2015,2015,March,Social
+23,Garissa University College attack (Kenya),2. Apr. 2015,2015,April,Social
+24,Nepal magn. 7.8 and 7.3 earthquakes,25. Apr. 2015,2015,April,Social
+25,Greek bailout referendum,5. Jul. 2015,2015,July,Politics
+26,Cuba and USA reestablish diplomatic relations,1. Jul. 2015,2015,July,Politics
+27,Volkswagen emissions scandal,18. Sep. 2015,2015,September,Viral
+28,Ankara bombings,10. Oct. 2015,2015,October,Social
+29,Paris terrorist attacks,13. Nov. 2015,2015,November,Social
+30,Paris agreement for climate change,12. Dec. 2015,2015,December,Politics
+31,SpaceX lands Falcon 9,21. Dec. 2015,2015,December,Science
+32,John Forbes Nash’s death,23. May. 2015,2015,May,Viral
+33,Christopher Lee’s death,7. Jun. 2015,2015,June,Viral
+34,Lemmy’s death,28. Dec. 2015,2015,December,Viral
+,,,,,
+35,Zika virus outbreak in America,28. Jan. 2016,2016,January,Social
+36,Obama visit to Cuba,21. Mar. 2016,2016,March,Politics
+37,EgyptAir flight 804 crash,19. May. 2016,2016,May,Social
+38,UK referendum to leave the EU,23. Jun. 2016,2016,June,Politics
+39,Ataturk Airport attack,28. Jun. 2016,2016,June,Social
+40,Juno spacecraft enters Jupiter’s orbit,5. Jul. 2016,2016,July,Science
+41,Turkish coup d’ état attempt,15. Jul. 2016,2016,July,Politics
+42,"2016 Summer Olympics (Rio, Brazil)",5. Aug. 2016,2016,August,Sports
+43,Panama papers data leak,9. May. 2016,2016,May,Viral
+44,Pokemon Go! release,6. Jul. 2016,2016,July,Viral
+45,Brussels Airport attack,22. Mar. 2016,2016,March,Social
+46,"Bastille day attack (Nice, France)",14. Jul. 2016,2016,July,Social
+47,Burkini ban (France),1. Aug. 2016,2016,August,Politics

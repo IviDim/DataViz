@@ -35,7 +35,10 @@ d3.dsv(",", "https://ividim.github.io/DataViz/data/events_2013_2018_sorted.csv",
 				
 			li.append("input")
 				.attr("type", "checkbox")
-				.attr("id", d => "event" + d.event_id);
+				.attr("id", d => "event" + d.event_id)
+				.attr("onclick", 
+					d => 'select_event(' + d.event_id + ',"' 
+											+ d.event_name + '")');
 
 
 			li.append("label")
