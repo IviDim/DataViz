@@ -99,24 +99,15 @@ text {
 	text-anchor: middle;
 }
 
-.sports {
-	fill: #cc0052;
-	color: #cc0052;
-}
+circle {
 
-.music {
-	fill: #b366ff;
-	color: #b366ff;
-}
-
-.movies {
-	fill: #6666ff;
-	color: #6666ff;
+	stroke: black;
+	stroke-width: 0.2;
 }
 
 circle:not(.event-selected) {
 	
-	opacity: 0.2;
+	opacity: 0.3;
 }
 
 .event-selected {

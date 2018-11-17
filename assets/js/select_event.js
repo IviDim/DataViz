@@ -1,17 +1,6 @@
 const color_cycle = ["#F0EAD6", "#D2C29D", "#766F57", "#7F4145"];
 
-function colorCycle(colors=color_cycle) {
-
-	let index = -1;
-
-	return () => {
-
-		index = (index + 1) % colors.length;
-		return colors[index];
-	}
-}
-
-const cc = colorCycle();
+const cc = colorCycle(color_cycle);
 
 function select_event(id, name) {
 	

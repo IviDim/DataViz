@@ -2,8 +2,21 @@
 // Data
 const pageviews = [50, 0, 30, 100, 80, 45];
 const years = ["2013", "2014", "2015", "2016", "2017", "2018"];
-const categories = ["Sports", "Music", "Music", "Movies", "Sports", "Movies"]
+const categories = ["Arts", "Culture", "Events", "Education", "Arts", 
+					"Geography"]
 const selected = [true, true, false, false, false, true];
+
+// Color palette
+const color_palette =  {"Arts": "#8dd3c7", "Culture": "#ffffb3", 
+						"Education": "#bebada", "Events": "#fb8072",
+						"Geography": "#80b1d3", "Health": "#fdb462",
+						"History": "#b3de69", "Humanities":  "#fccde5",
+						"Language": "#d9d9d9", "Law": "#bc80bd",
+						"Life": "#ccebc5", "Mathematics": "#ffed6f"};
+
+// TODO Find colors for "Nature", "People", "Philosohpy", "Politics", 
+//						"Reference", "Religion", "Science and Technology",
+//						"Society", "Sports", "Universe", "World" 
 
 function whenDocumentLoaded(action) {
 
@@ -54,6 +67,7 @@ class ScatterPlot {
 				.attr("r", 2.5)
 				.attr("cx", d => pointX_to_svgX(d.x))
 				.attr("cy", d => pointY_to_svgY(d.y))
+				.attr("style", d => "fill: " + color_palette[d.categ])
 				.attr("class", d => d.categ.toLowerCase())
 				.classed("event-selected", d => d.sel == true); // selected events
 
@@ -114,7 +128,8 @@ class ArticleCategories {
 
 		li.append("label")
 			.attr("for", d => d.toLowerCase())
-			.attr("class", d => d.toLowerCase() + " event-selected")
+			.attr("style", d => "color: " + color_palette[d])
+			.classed("event-selected", true)
 			.text(d => d);
 	}
 }
@@ -128,8 +143,9 @@ whenDocumentLoaded(() => {
 		 				data.push({"y": x[0], "x":i, "name": x[1], 
 		 							"sel": x[2], "categ": x[3]}));
 
+
 	const plot = new ScatterPlot("scatterplot", data);
 	//TODO Check if we can pass categories directly, instead of data
-	new ArticleCategories("category-filter", data); 
+	new ArticleCategories("category-filter", data);
 });
 
