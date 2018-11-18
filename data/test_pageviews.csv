@@ -1,7 +1,10 @@
-article,category,year,month,views,,,,
-1,Arts,2013,1,50,,,, 
-2,Culture,2014,2,5,,,,
-3,Events,2015,5,30,,,,
-4,Education,2015,9,100,,,,
-5,Arts,2017,12,80,,,,
-6,Geography,2017,4,45,,,,
+article,category,year,month,views
+1,Arts,2013,1,50
+1,Arts,2014,1,67
+1,Arts,2015,1,20
+1,Arts,2016,1,83
+2,Culture,2014,2,5
+3,Events,2015,5,30
+4,Education,2015,9,100
+5,Arts,2017,12,80
+6,Geography,2017,4,45
