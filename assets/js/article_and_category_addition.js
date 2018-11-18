@@ -1,7 +1,8 @@
 // TODO Get from CSV
 // Data
-const pageviews = [50, 0, 30, 100, 80, 45];
-const years = ["2013", "2014", "2015", "2016", "2017", "2018"];
+const pageviews = [50, 5, 30, 100, 80, 45];
+const dates = ["2013-01-01", "2014-01-01", "2015-01-01", "2016-01-01", 
+				"2017-01-01", "2017-12-31"];
 const categories = ["Arts", "Culture", "Events", "Education", "Arts", 
 					"Geography"]
 const selected = [true, true, false, false, false, true];
@@ -29,24 +30,26 @@ function whenDocumentLoaded(action) {
 	}
 }
 
+// Dimensions
+const width = 400;
+const height = 255;
+
 class ScatterPlot {
 
 	constructor(svg_element_id, data) {
-
-		this.data = data;
 		
 		// Calculate ranges
-		const x_value_range = [d3.min(data, d => d.x), d3.max(data, d => d.x)];
+		const xRange = [new Date(2012, 11, 1), new Date(2018, 1, 1)];
 
-		const y_value_range = [0, d3.max(data, d => d.y)];
+		const yRange = [0, d3.max(data, d => d.y) + 5];
 
-		const pointX_to_svgX = d3.scaleLinear()
-			.domain(x_value_range)
-			.range([10, 390]);
+		const xDomain = d3.scaleTime()
+	    					.domain(xRange)
+							.range([0, width - 1]);
 
-		const pointY_to_svgY = d3.scaleLinear()
-			.domain(y_value_range)
-			.range([240, 0]);
+		const yDomain = d3.scaleLinear()
+							.domain(yRange)
+							.range([height - 10, -10]);
 
 		//Create scatterplot
 		this.svg = d3.select("#" + svg_element_id);
@@ -54,45 +57,109 @@ class ScatterPlot {
 		this.plot_area = this.svg.append("g");
 
 		this.plot_area.append('rect')
-			.attr("x", "0")
-			.attr("y", "-10")
-			.attr("width", "400")
-			.attr("height", "260")
-			.attr("id", "canvas");
+						.attr("x", "0")
+						.attr("y", "-10")
+						.attr("width", width)
+						.attr("height", height)
+						.attr("id", "canvas");
 
+		// Create X axis
+		let xAxisHeight = height - 10;
+		let xAxis = d3.axisBottom(xDomain)
+						.tickSize(2);
+
+		this.svg.append("g")
+				.attr("class", "axis")
+				.attr("transform", "translate(0," + xAxisHeight + ")")
+      			.call(xAxis);
+
+		// Create Y axis
+		let yAxis = d3.axisLeft(yDomain)
+						.tickSize(2);
+		this.svg.append("g")
+					.attr("class", "axis")
+		      		.call(yAxis);
+
+		// Create article circles
 		this.plot_area.selectAll("circle")
 			.data(data)
 			.enter()
 			.append("circle")
 				.attr("r", 2.5)
-				.attr("cx", d => pointX_to_svgX(d.x))
-				.attr("cy", d => pointY_to_svgY(d.y))
+				.attr("cx", d => xDomain(d.x))
+				.attr("cy", d => yDomain(d.y))
 				.attr("style", d => "fill: " + color_palette[d.categ])
 				.attr("class", d => d.categ.toLowerCase())
-				.classed("event-selected", d => d.sel == true); // selected events
+				// selected events
+				.classed("event-selected", d => d.sel == true);
+	}
+}
 
-		// Create X labels
-		this.svg.append("g")
-			.selectAll("text")
-			.data(data)
-			.enter()
-				.append("text")
-				.text( d => d.name )
-				.attr("x", d => pointX_to_svgX(d.x))
-				.attr("y", 260);
+class BrushArea {
 
-		// Create Y labels
-		const label_ys = Array.from(Array(11), (elem, index) => 10 * index)
-						.reverse(); // 100 ... 20 10 0
+	constructor(svg_element_id, data) {
 
-		this.svg.append("g")
-			.selectAll("text")
-			.data(label_ys)
-			.enter()
-				.append("text")
-				.text( svg_y => svg_y)
-				.attr("x", -5)
-				.attr("y", svg_y => pointY_to_svgY(svg_y));
+		//Create brush area
+		this.plot_area = d3.select("#" + svg_element_id).append("g");
+
+		let y = height + 3;
+		let brushHeight = 20;
+
+		let t1 = new Date(2013, 0, 1),
+	    t2 = new Date(2018, 0, 1);
+
+		let xDomain = d3.scaleTime()
+	    				.domain([t1, t2])
+	    				.rangeRound([5, width - 5]);
+
+		this.plot_area.append("g")
+		    .attr("class", "axis axis--grid")
+		    .attr("transform", "translate(0," + y + ")")
+		    .call(d3.axisBottom(xDomain)
+		        .ticks(d3.timeMonth)
+		        .tickSize(brushHeight)
+		        .tickFormat(function() { return null; }))
+		  	.selectAll(".tick")
+		    	.classed("tick--minor", d => (d.getMonth() != 0 
+		    								&& d.getMonth() != 6));
+
+	  	let yy = y + brushHeight;
+	  	this.plot_area.append("g")
+		    .attr("class", "axis axis--x")
+		    .attr("transform", "translate(0," + yy + ")")
+		    .call(d3.axisBottom(xDomain)
+		        .ticks(d3.timeYear)
+		        .tickSize(5)
+		        .tickPadding(0));
+
+	    this.plot_area.append("g")
+		    .attr("class", "brush")
+		    .attr("transform", "translate(0," + y + ")")
+		    .call(d3.brushX()
+		        .extent([[0, 0], [width, brushHeight]])
+		        .on("end", brush_end));
+
+	    function brush_end() {
+
+	    	 // Only transition after input.
+	  		if (!d3.event.sourceEvent) return;
+
+	  		// Ignore empty selections.
+			if (!d3.event.selection) return;
+
+			let d0 = d3.event.selection.map(xDomain.invert),
+		  	d1 = d0.map(d3.timeMonth.round);
+
+			// If empty when rounded, use floor & ceil instead.
+			if (d1[0] >= d1[1]) {
+
+				d1[0] = d3.timeMonth.floor(d0[0]);
+				d1[1] = d3.timeMonth.offset(d1[0]);
+			}
+
+			d3.select(this).transition()
+				.call(d3.event.target.move, d1.map(xDomain));
+		}
 	}
 }
 
@@ -138,14 +205,14 @@ whenDocumentLoaded(() => {
 
 	let data = [];
 
-	pageviews.map((view, i) => [view, years[i], selected[i], categories[i]])
-				 	 .forEach((x, i) => 
-		 				data.push({"y": x[0], "x":i, "name": x[1], 
-		 							"sel": x[2], "categ": x[3]}));
-
+	pageviews.map((view, i) => [view, dates[i], selected[i], categories[i]])
+		 	 .forEach((x, i) => 
+ 				data.push({"y": x[0], "x": new Date(x[1]), "name": i, 
+ 							"sel": x[2], "categ": x[3]}));
 
 	const plot = new ScatterPlot("scatterplot", data);
 	//TODO Check if we can pass categories directly, instead of data
 	new ArticleCategories("category-filter", data);
+	new BrushArea("scatterplot", data);
 });
 

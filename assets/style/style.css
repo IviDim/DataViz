@@ -82,26 +82,35 @@ label {
 	fill: #f2f2f2;
 }
 
-/*.axis {
-	stroke-width: 1;
-	fill: rgb(200, 200, 200);
-}*/
+/* ------- Brush area --------*/
+.axis--grid .domain {
 
-.axis line, .axis path {
-	fill: none;
-	stroke: #000;
-	shape-rendering: crispEdges;
+	fill: #ddd;
+	stroke: none;
 }
 
+.axis--x .domain, .axis--grid .tick line {
+
+	stroke: #fff;
+}
+
+.axis--grid .tick--minor line {
+
+	stroke-opacity: .5;
+}
+
+/*----------------------------*/
+
 text {
-	fill: black;
+	
+	fill: grey;
 	font-size: 4.5px;
 	text-anchor: middle;
 }
 
 circle {
 
-	stroke: black;
+	stroke: grey;
 	stroke-width: 0.2;
 }
 
@@ -112,7 +121,7 @@ circle:not(.event-selected) {
 
 .event-selected {
 
-	opacity: 1.0;
+	opacity: 2.0;
 }
 
 /*------------Right panel---------------*/
