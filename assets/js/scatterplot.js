@@ -67,9 +67,9 @@ class ScatterPlot {
 					// Tooltip behaviour
 					.on("mouseover", this.onMouseOver)					
 			        .on("mouseout", this.onMouseOut)
-					// Selected event behaviour
-					// .classed("event-selected", d => d.sel == true);
-					.classed("event-selected", d => d);
+					// Selected article behaviour
+					// .classed("article-selected", d => d.sel == true);
+					.classed("article-selected", d => d);
 	}
 
 	// Function to be called when user hovers over a circle - shows tooltip
@@ -92,12 +92,46 @@ class ScatterPlot {
     					"<br/>" +
         			 	"(" + format(d.x) + ")");
 
-        let width = this.div.node().getBoundingClientRect().width;
-        let height = this.div.node().getBoundingClientRect().height;
-    			
-		this.div.style("left", $(this).offset().left - 0.4 * width + "px")
-			    .style("top", $(this).offset().top - 1.1 * height + "px");
+        const rect = d3.select("rect").node().getBoundingClientRect();
+        const rectTopBorder = rect.top;
+        const rectLeftBorder = rect.left;
+        const rectRightBorder = rect.right;
+        const circleLeft = $(this).offset().left;
+        const circleTop = $(this).offset().top;
+        const tooltipWidth = this.div.node().getBoundingClientRect().width;
+        const tooltipHeight = this.div.node().getBoundingClientRect().height;
 
+        // If the tooltip sticks out of the scatterplot's top border if
+        // placed above the circle, it is placed under the circle instead.
+        const tooltipTop = circleTop - 1.1 * tooltipHeight;
+        if (tooltipTop < rectTopBorder)
+        	this.div.style("top", circleTop + 0.4 * tooltipHeight + "px");
+        else
+        	this.div.style("top", tooltipTop + "px");
+        
+
+        // If the tooltip sticks out of the scatterplot's left border,
+        // it is slightly moved to the right.
+        const tooltipLeft = circleLeft - 0.4 * tooltipWidth;
+        const diffLeft = rectLeftBorder - tooltipLeft;
+        if (diffLeft > 0) {
+
+        	this.div.style("left", tooltipLeft + diffLeft + 3 + "px");
+        } else {
+
+    		// If the tooltip sticks out of the scatterplot's right border,
+        	// it is slightly moved to the left.
+        	const tooltipRight = tooltipLeft + tooltipWidth;
+    		const diffRight = tooltipRight - rectRightBorder;
+
+			if (diffRight > 0) {
+
+				this.div.style("left", tooltipLeft - diffRight - 3 + "px");
+			} else {
+
+				this.div.style("left", tooltipLeft + "px");
+			}
+    	}
     }
 
     // Function to be called when user stops hovering over a circle
@@ -135,7 +169,8 @@ class ScatterPlot {
 
 		// Update()
 		circles.transition()
-	            .attr("cx", d => this.xScale(d.x));
+	            .attr("cx", d => this.xScale(d.x))
+	            .attr("cy", d => this.yScale(d.y));
 
         // Enter() 
 		circles.enter()
@@ -148,9 +183,9 @@ class ScatterPlot {
 					// Tooltip behaviour
 					.on("mouseover", this.onMouseOver)					
 			        .on("mouseout", this.onMouseOut)
-					// selected events
-					// .classed("event-selected", d => d.sel == true);
-					.classed("event-selected", d => d)
+					// selected articles
+					// .classed("article-selected", d => d.sel == true);
+					.classed("article-selected", d => d)
   				.transition()
 					.attr("r", 2.5);
 		

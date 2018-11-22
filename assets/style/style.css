@@ -65,7 +65,7 @@ input checkbox {
 	cursor: pointer;
 }
 
-label {
+.article_category label {
 
 	cursor: pointer;
 }
@@ -112,12 +112,12 @@ circle {
 	cursor: pointer;
 }
 
-circle:not(.event-selected) {
+circle:not(.article-selected) {
 	
 	opacity: 0.3;
 }
 
-.event-selected {
+.article-selected {
 
 	opacity: 2.0;
 }

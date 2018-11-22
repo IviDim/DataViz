@@ -59,7 +59,6 @@ class ArticleCategories {
 		li.append("label")
 			.attr("for", d => d.toLowerCase())
 			.attr("style", d => "color: " + color_palette[d])
-			.classed("event-selected", true)
 			.text(d => d);
 
 		u.exit()

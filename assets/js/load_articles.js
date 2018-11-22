@@ -1,6 +1,8 @@
 // Read data from CSV file
 let id = 0;
-d3.dsv(",", "https://ividim.github.io/DataViz/data/test_pageviews.csv",
+d3.dsv(",", "https://raw.githubusercontent.com/justcho5/data_viz/" +
+			"master/data/test_pageviews.csv?" + 
+			"token=ASnk--RMF3Xk30-E9Q-IQeSTesrWk5l_ks5b_m19wA%3D%3D",
 	function(d) {
 
 		return {
@@ -55,5 +57,6 @@ function createPlotAndCategories(data) {
 		const domain = brush_area.updateBrushArea(this);
 		let new_data = scatterplot.updateCircles(domain, data);
 		article_categories.updateCategories(new_data);
+		// events.updateEvents(domain);
 	}
 }
