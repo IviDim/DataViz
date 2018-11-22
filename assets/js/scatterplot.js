@@ -114,24 +114,24 @@ class ScatterPlot {
         // it is slightly moved to the right.
         const tooltipLeft = circleLeft - 0.4 * tooltipWidth;
         const diffLeft = rectLeftBorder - tooltipLeft;
-        if (diffLeft > 0) {
+   //      if (diffLeft > 0) {
 
-        	this.div.style("left", tooltipLeft + diffLeft + 3 + "px");
-        } else {
+   //      	this.div.style("left", tooltipLeft + diffLeft + 3 + "px");
+   //      } else {
 
-    		// If the tooltip sticks out of the scatterplot's right border,
-        	// it is slightly moved to the left.
-        	const tooltipRight = tooltipLeft + tooltipWidth;
-    		const diffRight = tooltipRight - rectRightBorder;
+   //  		// If the tooltip sticks out of the scatterplot's right border,
+   //      	// it is slightly moved to the left.
+   //      	const tooltipRight = tooltipLeft + tooltipWidth;
+   //  		const diffRight = tooltipRight - rectRightBorder;
 
-			if (diffRight > 0) {
+			// if (diffRight > 0) {
 
-				this.div.style("left", tooltipLeft - diffRight - 3 + "px");
-			} else {
+			// 	this.div.style("left", tooltipLeft - diffRight - 3 + "px");
+			// } else {
 
 				this.div.style("left", tooltipLeft + "px");
-			}
-    	}
+			// }
+    	// }
     }
 
     // Function to be called when user stops hovering over a circle
