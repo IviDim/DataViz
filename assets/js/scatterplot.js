@@ -4,8 +4,9 @@ class ScatterPlot {
 		
 		// Ranges & Scales
 		const xRange = [new Date(2012, 11, 1), new Date(2018, 1, 1)];
-		const yRange = [(d3.min(data, d => d.view_count)) - 100000, 
-						(d3.max(data, d => d.view_count)) + 100000];
+		// const yRange = [(d3.min(data, d => d.view_count)) - 100000, 
+		// 				(d3.max(data, d => d.view_count)) + 100000];
+		const yRange = [0, (d3.max(data, d => d.view_count)) + 100000];
 
 		this.xScale = d3.scaleTime()
 							.domain(xRange)
@@ -165,9 +166,9 @@ class ScatterPlot {
 		this.xScale.domain(domain);
 
 		// Update yScale domain
-		const yRange = [(d3.min(data, d => d.view_count)) - 100000, 
-						(d3.max(data, d => d.view_count)) + 100000];
-		this.yScale.domain(yRange);
+		// const yRange = [(d3.min(data, d => d.view_count)) - 100000, 
+		// 				(d3.max(data, d => d.view_count)) + 100000];
+		// this.yScale.domain(yRange);
 
 		// Update circles
 		let circles = this.focus_area.selectAll("circle")
@@ -208,6 +209,6 @@ class ScatterPlot {
 		this.focus_area.select(".axis.axis-x").call(this.xAxis);
 
 		// Update y axis
-		this.focus_area.select(".axis.axis-y").call(this.yAxis);
+		// this.focus_area.select(".axis.axis-y").call(this.yAxis);
 	}
 }
