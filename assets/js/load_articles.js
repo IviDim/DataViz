@@ -80,14 +80,11 @@ function createPlotAndCategories(data) {
 //TODO Remove
 function createRandomDate(dom) {
 
-	let domain = [];
-	if (dom === undefined) {
+	let domain = [new Date(2014, 9, 1), new Date(2015, 2, 31)];
+	if (dom !== undefined) {
 
-		domain[0] = new Date(2014, 9, 1);
-		domain[1] = new Date(2015, 2, 31); 
-	} else {
-
-		domain = dom;
+		if (dom[0] > domain[0]) domain[0] = dom[0];
+		if (dom[1] < domain[1]) domain[1] = dom[1]; 
 	}
 
 	return new Date(domain[0].getTime() + 

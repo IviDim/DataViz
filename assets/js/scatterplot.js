@@ -7,8 +7,6 @@ class ScatterPlot {
 		const yRange = [(d3.min(data, d => d.view_count)) - 100000, 
 						(d3.max(data, d => d.view_count)) + 100000];
 
-		console.log(yRange);
-
 		this.xScale = d3.scaleTime()
 							.domain(xRange)
 							.range([0, width - 1]);
