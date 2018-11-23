@@ -1,6 +1,6 @@
 // Read data from REST API
 
-const articles_url = "https://fivelinks.io:5000/topArticles";
+const articles_url = "https://fivelinks.io/dataviz/topArticles";
  
 function whenDocumentLoaded(action) {
 
