@@ -1,15 +1,13 @@
 class ScatterPlot {
 
-	constructor(args) {
-		
-		const svg_element_id = args.svg_element_id;
-		const data = args.data;
-		const width = args.width;
-		const height = args.height;
+	constructor(svg_element_id, data, width, height) {
 		
 		// Ranges & Scales
 		const xRange = [new Date(2012, 11, 1), new Date(2018, 1, 1)];
-		const yRange = [0, d3.max(data, d => d.y) + 5];
+		const yRange = [(d3.min(data, d => d.view_count)) - 100000, 
+						(d3.max(data, d => d.view_count)) + 100000];
+
+		console.log(yRange);
 
 		this.xScale = d3.scaleTime()
 							.domain(xRange)
@@ -44,8 +42,14 @@ class ScatterPlot {
 		      			.call(this.xAxis);
 
 		// Create Y axis
+		
 		this.yAxis = d3.axisLeft(this.yScale)
-						.tickSize(2);
+						.tickSize(2)
+						.tickFormat(function (d) {
+					        
+					        const prefix = d3.format("~s");
+					        return prefix(d);
+					    });
 
 		this.focus_area.append("g")
 						.classed("axis axis-y", true)
@@ -55,15 +59,16 @@ class ScatterPlot {
 		let circles = this.focus_area
 							.selectAll("circle")
 							// Bind each svg circle to a unique data element
-							.data(data, d => d.id);
+							.data(data, d => d.article_id);
 
 		circles.enter()
 				.append("circle")
 					.attr("r", 2.5)
-					.attr("cx", d => this.xScale(d.x))
-					.attr("cy", d => this.yScale(d.y))
-					.attr("style", d => "fill: " + color_palette[d.categ])
-					.attr("class", d => d.categ.toLowerCase())
+					.attr("cx", d => this.xScale(d.peak_date))
+					.attr("cy", d => this.yScale(d.view_count))
+					.attr("style", d => "fill: " + 
+										color_palette[d.main_category])
+					.attr("class", d => d.main_category.toLowerCase())
 					// Tooltip behaviour
 					.on("mouseover", this.onMouseOver)					
 			        .on("mouseout", this.onMouseOut)
@@ -75,7 +80,7 @@ class ScatterPlot {
 	// Function to be called when user hovers over a circle - shows tooltip
 	onMouseOver(d) {
 
-		let format = d3.timeFormat("%B-%Y");
+		let format = d3.timeFormat("%B %d, %Y");
 
 		this.div = d3.select("body")
 					.append("div")
@@ -86,11 +91,14 @@ class ScatterPlot {
 	            .duration(200)
 	            .style("opacity", .9);
 
-        this.div.html("<u> Article "+ d.name + "</u>" +
+        this.div.html(  "<u>" + d.article_name
+        							.replace(/_/g, " ") //Remove _
+									.replace(/\\/g, "") //Remove \
+							  + "</u>" +
     					"<br/>" +
-        				"Views: " + d.y +
+        				"Views: " + d.view_count +
     					"<br/>" +
-        			 	"(" + format(d.x) + ")");
+        			 	"(" + format(d.peak_date) + ")");
 
         const rect = d3.select("rect").node().getBoundingClientRect();
         const rectTopBorder = rect.top;
@@ -158,28 +166,31 @@ class ScatterPlot {
 		// Update xScale domain
 		this.xScale.domain(domain);
 
-		// Update data
-		let new_data = data.filter(d => (d.x >= dom[0] && d.x <= dom[1]));
+		// Update yScale domain
+		const yRange = [(d3.min(data, d => d.view_count)) - 100000, 
+						(d3.max(data, d => d.view_count)) + 100000];
+		this.yScale.domain(yRange);
 
 		// Update circles
 		let circles = this.focus_area.selectAll("circle")
 										// Bind each svg circle to a 
 										// unique data element
-										.data(new_data, d => d.id);
+										.data(data, d => d.article_id);
 
 		// Update()
 		circles.transition()
-	            .attr("cx", d => this.xScale(d.x))
-	            .attr("cy", d => this.yScale(d.y));
+	            .attr("cx", d => this.xScale(d.peak_date))
+	            .attr("cy", d => this.yScale(d.view_count));
 
         // Enter() 
 		circles.enter()
 				.append("circle")
 					.attr("r", 0)
-					.attr("cx", d => this.xScale(d.x))
-					.attr("cy", d => this.yScale(d.y))
-					.attr("style", d => "fill: " + color_palette[d.categ])
-					.attr("class", d => d.categ.toLowerCase())
+					.attr("cx", d => this.xScale(d.peak_date))
+					.attr("cy", d => this.yScale(d.view_count))
+					.attr("style", d => "fill: " + 
+									color_palette[d.main_category])
+					.attr("class", d => d.main_category.toLowerCase())
 					// Tooltip behaviour
 					.on("mouseover", this.onMouseOver)					
 			        .on("mouseout", this.onMouseOut)
@@ -198,6 +209,7 @@ class ScatterPlot {
 		// Update x axis
 		this.focus_area.select(".axis.axis-x").call(this.xAxis);
 
-		return new_data;
+		// Update y axis
+		this.focus_area.select(".axis.axis-y").call(this.yAxis);
 	}
 }

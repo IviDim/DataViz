@@ -1,0 +1,32 @@
+[
+  {
+    "article_id": "0",
+    "article_name": "Java",
+    "view_count": "12341",
+    "main_category": "History"
+  },
+  {
+    "article_id": "1",
+    "article_name": "Jason Bond",
+    "view_count": "320395",
+    "main_category": "Arts"
+  },
+  {
+    "article_id": "2",
+    "article_name": "Japan",
+    "view_count": "58959",
+    "main_category": "Geography"
+  },
+  {
+    "article_id": "3",
+    "article_name": "Japan",
+    "view_count": "57603",
+    "main_category": "Education"
+  },
+  {
+    "article_id": "4",
+    "article_name": "Japan",
+    "view_count": "5859",
+    "main_category": "Culture"
+  }
+]

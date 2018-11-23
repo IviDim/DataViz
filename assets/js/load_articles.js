@@ -1,39 +1,37 @@
-// Read data from CSV file
-let id = 0;
-d3.dsv(",", "https://raw.githubusercontent.com/justcho5/data_viz/" +
-			"master/data/test_pageviews.csv?" + 
-			"token=ASnk--RMF3Xk30-E9Q-IQeSTesrWk5l_ks5b_m19wA%3D%3D",
-	function(d) {
+// Read data from REST API
 
-		return {
-			id: id++,
-			name: d.article,
-			x: new Date(d.year, d.month, 1),
-			y: parseInt(d.views),
-			categ: d.category,
-			sel: true
-		};
-	})
-.then (function(data) {
+const articles_url = "http://fivelinks.io:5000/topArticles";
+ 
+function whenDocumentLoaded(action) {
 
-		createPlotAndCategories(data);
+	if (document.readyState === "loading") {
+
+		document.addEventListener("DOMContentLoaded", action);
+	} else {
+		
+		action();
 	}
-);
+}
+
+whenDocumentLoaded(() => {
+
+	const url = articles_url + "/2014/10/2015/03";
+	loadJSON(url, createPlotAndCategories);
+});
 
 
 function createPlotAndCategories(data) {
+
+	// TODO Remove
+	data.forEach(d => d["peak_date"] = createRandomDate());
+	data.forEach(d => d["main_category"] = assignRandomCategory());
 
 	// Dimensions
 	const width = 400;
 	const height = 255;
 	
 	// Scatterplot creation
-	let scatterplot = new ScatterPlot({
-						svg_element_id: "scatterplot",
-						data: data,
-						width: width,
-						height: height
-					});
+	let scatterplot = new ScatterPlot("scatterplot", data, width, height);
 
 	// Category creation
 	let article_categories = new ArticleCategories("category-filter", data);
@@ -55,8 +53,54 @@ function createPlotAndCategories(data) {
 		if (!d3.event.selection) return;
 
 		const domain = brush_area.updateBrushArea(this);
-		let new_data = scatterplot.updateCircles(domain, data);
-		article_categories.updateCategories(new_data);
-		// events.updateEvents(domain);
+
+		let monthFormat = d3.timeFormat("%m");
+		let yearFormat = d3.timeFormat("%Y");
+
+		const url = articles_url
+					+ "/" + yearFormat(domain[0])
+					+ "/" + monthFormat(domain[0])
+				 	+ "/" + yearFormat(domain[1])
+				 	+ "/" + monthFormat(domain[1]);
+
+		loadJSON(url, function(data) {
+
+			// TODO Remove
+			data.forEach(d => d["peak_date"] = createRandomDate(domain));
+			data.forEach(d => d["main_category"] = assignRandomCategory());
+
+			scatterplot.updateCircles(domain, data)
+			article_categories.updateCategories(data);
+		});
+		
+		// events.updateEvents(domain);  //TODO Remove if not needed.
 	}
+}
+
+//TODO Remove
+function createRandomDate(dom) {
+
+	let domain = [];
+	if (dom === undefined) {
+
+		domain[0] = new Date(2014, 9, 1);
+		domain[1] = new Date(2015, 2, 31); 
+	} else {
+
+		domain = dom;
+	}
+
+	return new Date(domain[0].getTime() + 
+			Math.random() * (domain[1].getTime() - domain[0].getTime()));
+}
+
+//TODO Remove
+function assignRandomCategory() {
+
+	
+	const categories = [ "Arts", "Culture", "Education", "Events",
+						 "Geography", "Health", "History", "Humanities",
+						 "Language", "Law", "Life", "Mathematics"];
+
+	return categories[Math.round(Math.random() * 11)];
 }

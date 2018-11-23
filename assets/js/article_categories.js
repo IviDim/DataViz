@@ -21,7 +21,7 @@ class ArticleCategories {
 	getUniqueCategories(data) {
 
 		// Get the list of all article categories (with duplicates)
-   		const categories = data.map(x => x.categ);
+   		const categories = data.map(x => x.main_category);
 
 		// Get the list of unique categories
 		const unique_categories = 
@@ -41,7 +41,6 @@ class ArticleCategories {
 		const category_list = d3.select("#" + this.category_list_id);
 		const u = category_list.selectAll(".article_category")
 								.data(unique_categories, d => d);
-
 
 		const li = u.enter()
 					.append("li")
