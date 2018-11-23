@@ -130,7 +130,6 @@ circle:not(.article-selected) {
 
 div.tooltip {
 
-	text-align: center;
 	padding: 2px;
 	font-size: 10px;
 	color: white;
@@ -138,6 +137,11 @@ div.tooltip {
 	border: 0px;
 	border-radius: 8px;
 	pointer-events: none;
+}
+
+div.tooltip > div {
+
+	text-align: center;
 }
 
 /*------------Right panel---------------*/

@@ -79,7 +79,8 @@ class ScatterPlot {
 	// Function to be called when user hovers over a circle - shows tooltip
 	onMouseOver(d) {
 
-		let format = d3.timeFormat("%B %d, %Y");
+		let dateFormat = d3.timeFormat("%d %b %Y");
+		let viewsFormat = d3.format(",");
 
 		this.div = d3.select("body")
 					.append("div")
@@ -90,14 +91,13 @@ class ScatterPlot {
 	            .duration(200)
 	            .style("opacity", .9);
 
-        this.div.html(  "<u>" + d.article_name
+        this.div.html(  "<div><u>" + d.article_name
         							.replace(/_/g, " ") //Remove _
 									.replace(/\\/g, "") //Remove \
-							  + "</u>" +
+							  + "</u></div>" +
+        				"Total views: " + viewsFormat(d.view_count) +
     					"<br/>" +
-        				"Views: " + d.view_count +
-    					"<br/>" +
-        			 	"(" + format(d.peak_date) + ")");
+        			 	"Most viewed on: " + dateFormat(d.peak_date));
 
         const rect = d3.select("rect").node().getBoundingClientRect();
         const rectTopBorder = rect.top;
