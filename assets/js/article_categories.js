@@ -5,6 +5,7 @@ const color_palette =  {"Arts": "#8dd3c7", "Culture": "#ffffb3",
 						"History": "#b3de69", "Humanities":  "#fccde5",
 						"Language": "#d9d9d9", "Law": "#bc80bd",
 						"Life": "#ccebc5", "Mathematics": "#ffed6f"};
+// const color_palette = {}
 
 // TODO Find colors for "Nature", "People", "Philosophy", "Politics", 
 //						"Reference", "Religion", "Science and Technology",

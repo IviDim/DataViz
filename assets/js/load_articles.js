@@ -28,21 +28,21 @@ function createPlotAndCategories(data) {
 
 	// Dimensions
 	const width = 400;
-	const height = 255;
+	const height = 200;
 	
 	// Scatterplot creation
 	let scatterplot = new ScatterPlot("scatterplot", data, width, height);
-
-	// Category creation
-	let article_categories = new ArticleCategories("category-filter", data);
-
-	//Brush area creation
+	
+	// Brush area creation
 	let brushHeight = 20;
 	let brush = d3.brushX()
 			        .extent([[0, 0], [width, brushHeight]])
 			        .on("end", brushed);
 
 	let brush_area = new BrushArea(height + 3, width, brushHeight, brush);
+
+	// Creation of list of top articles
+	let article_list = new ArticleList("list-top-articles", data);
 
     function brushed() {
 
@@ -70,7 +70,8 @@ function createPlotAndCategories(data) {
 			data.forEach(d => d["main_category"] = assignRandomCategory());
 
 			scatterplot.updateCircles(domain, data)
-			article_categories.updateCategories(data);
+			// article_categories.updateCategories(data); //TODO Remove
+			article_list.updateArticleList(data);
 		});
 		
 		// events.updateEvents(domain);  //TODO Remove if not needed.
@@ -99,5 +100,5 @@ function assignRandomCategory() {
 						 "Geography", "Health", "History", "Humanities",
 						 "Language", "Law", "Life", "Mathematics"];
 
-	return categories[Math.round(Math.random() * 11)];
+	return categories[Math.round(Math.random() * (categories.length - 1))];
 }
