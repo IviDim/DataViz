@@ -6,6 +6,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+  <!-- Autocomplete CSS -->
+  <link rel="stylesheet" type="text/css" href="./vendor/JavaScript-autoComplete-master/auto-complete.css">
+
  	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
@@ -19,6 +22,9 @@
 </head>
 <body>
 
+	<!-- Autocomplete -->
+	<script type="text/javascript" src="./vendor/JavaScript-autoComplete-master/auto-complete.min.js"></script>
+
 	<!-- Bootstrap JavaScript -->
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -29,26 +35,35 @@
 
 	<!-- JS scripts -->
 	<script type="text/javascript" src="./assets/js/load_json.js"></script>
-	<script type="text/javascript" src="./assets/js/clean_article_name.js"></script>
+	<script type="text/javascript" src="./assets/js/format_article_name.js"></script>
+	<script type="text/javascript" src="./assets/js/autocomplete_article_search.js"></script>
+	<script type="text/javascript" src="./assets/js/color_cycle.js"></script>
+	<script type="text/javascript" src="./assets/js/init_viz.js"></script>
 	<script type="text/javascript" src="./assets/js/scatterplot.js"></script>
-	<script type="text/javascript" src="./assets/js/article_categories.js"></script>
 	<script type="text/javascript" src="./assets/js/brush_area.js"></script>
 	<script type="text/javascript" src="./assets/js/events.js"></script>
-	<script type="text/javascript" src="./assets/js/load_events.js"></script>
-	<script type="text/javascript" src="./assets/js/load_articles.js"></script>
-	<!-- <script type="text/javascript" src="./assets/js/color_cycle.js"></script> -->   <!-- TODO remove -->
-	<script type="text/javascript" src="./assets/js/filter_by_category.js"></script>
-	<script type="text/javascript" src="./assets/js/select_event.js"></script>
+	<script type="text/javascript" src="./assets/js/article_progress.js"></script>
+	<script type="text/javascript" src="./assets/js/article_neighbours.js"></script>
+	<script type="text/javascript" src="./assets/js/top_articles.js"></script>
 	<script type="text/javascript" src="./assets/js/toggle_left_panel.js"></script>
 	<script type="text/javascript" src="./assets/js/article_list.js"></script>
 
+	<div id="intro-page" class="top">
+		<p> 
+			This is a data viz. 
+		</p>
+	</div>
+
+	<div class="bottom">
 	<div id="level-1-container" class="container-fluid">
 
-		<div id="page-title" class="row no-gutters">
+		<div id ="inter-row" class="row no-gutters full-height">
+
+		<div id="page-title" class="row no-gutters full-width">
 			<div class="col-sm-12">
 
 				<div id="open-left-panel-btn">
-					<button class="btn" onclick="toggleNav()">
+					<button id="toggle-panel-btn" class="btn" onclick="toggleNav()">
 						<i class="fas fa-sliders-h"></i>
 					</button>
 				</div>
@@ -68,31 +83,39 @@
 				<div id="left-panel">
 
 				  <!-- Overlay content -->
-				  <div id="left-panel-content">
+				  <div id="left-panel-content" class="full-height">
 
 			    	<!-- Article search -->
 			    	<ul id="article-search" class="list-group">
 
 							<li id="article-search-title" class="list-group-item">
 								
-								 <h6> Search Article </h6>
+							 	<h6> Search Article <br>
+							 		(must match Wikipedia article name exactly)
+							 	</h6>
+
 							</li>
 
 							<div class="input-group">
-								<input type="text" class="form-control" placeholder="e.g. Pope Francis">
-								<div class="input-group-append">
-						    	<button class="btn btn-outline-secondary" type="button" id="button-addon2"> 
-					    			<i class="fas fa-times"></i>
-					    		</button>
-						  	</div>
-							</div>
-
+									<input type="text" name="article-search-bar" id="article-search-bar" class="form-control" placeholder="e.g. Pope Francis">
+										<div class="input-group-append">
+								    	<button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="scatterplot.onClickArticleSearch(d3.select('#article-search-bar'))"> 
+								    			<i class="fas fa-search"></i>
+							    		</button>
+								  	</div>
+								</div>
+							
+								<div id="article-search-error-message">
+									Sorry, this article doesn't seem to exist.
+									Please try again.
+								</div> 	
+							
 						</ul>
 						<!-- Article search end -->
 
 						<!-- Event selection -->
 						<div id="event-filter-title" class="list-group-item">
-						 	<h6> Select Events <br> (max. 4) </h6>
+						 	<h6> Select Event <br> (max. 1) </h6>
 						</div>
 
 			      <div id="selected-events-jumb"></div>
@@ -201,37 +224,39 @@
 			    </div>
 		  	</div>
 
-	      <svg id="scatterplot" viewBox="-15 -10 425 320" width="100%" height="100%" preserveAspectRatio="none"></svg>
+	      <svg oncontextmenu="return false;" id="scatterplot" viewBox="-15 -10 425 320" width="100%" height="100%" preserveAspectRatio="none"></svg>
 
 	    </div>
 
 	    <div class="col-sm-2 full-height full-width">
 
     	<!-- List of top articles -->
-    	<ul id="list-top-articles" class="list-group">
+    		<ul id="list-top-articles" class="list-group">
 
-				<li id="list-top-articles-title" class="list-group-item">
-			 		<h6> Top Articles 
-			 			<br> (double click for page count progress)
-		 		 	</h6>
-				</li>
+					<li id="list-top-articles-title" class="list-group-item">
+				 		<h6> Top Articles 
+				 			<br> (click for article view-count progress)
+			 		 	</h6>
+					</li>
 
-				<div class="scrollable"><div>
+					<div class="scrollable"><div>
 
-			</ul>
-			<!-- List of top articles end -->
+				</ul>
+				<!-- List of top articles end -->
 
-			<!-- Article summary -->
+				<!-- Article summary -->
 
-			<div id="article-summary">
-				
-			</div>
+				<div id="article-summary">
+				</div>
 
-			<!-- Article sumarry end -->
+				<!-- Article summary end -->
 
 	    </div>
 
 		</div>
+		</div>
+		
+	</div>
 	</div>
 
 </body>

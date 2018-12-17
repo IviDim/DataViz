@@ -23,6 +23,7 @@ class ArticleList {
 				.classed("hyphenated", true)
 				.on("mouseover", this.onMouseOver)
 				.on("mouseout", this.onMouseOut)
+				.on("click", this.onClick)
 			.append("span")
 				.text((d, i) => (i+1) + ". " + 
 								cleanArticleName(d.article_name))
@@ -32,14 +33,29 @@ class ArticleList {
 			.remove();
 	}
 
+
+	// On click of a list element, show single article view, like when the
+	// user clicks on a circle.
+	onClick(d) {
+
+		scatterplot.onClickCircle(d);
+	}
+
 	onMouseOver(d) {
 
-		// Highlight selected circle
-		d3.select("#article_" + d.article_id)
-			.transition()
-			.attr("r", 2.7)
-			.style("stroke", "Goldenrod")
-			.style("stroke-width", "0.8");
+		const circle = d3.select("#article_" + d.article_id);
+
+		// If the circle has not already been deleted or is due for deletion,
+		// highlight it.
+		if ((!circle.empty()) && (circle.classed("deleted") == false)) {
+
+			// Highlight selected circle
+			circle.transition()
+				  .duration(10)
+				  .attr("r", 3)
+				  .style("stroke", "Goldenrod")
+				  .style("stroke-width", "0.8");
+		}
 	}
 
 	onMouseOut(d) {

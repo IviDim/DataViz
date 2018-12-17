@@ -2,6 +2,9 @@ html {
 
   height: 100%;
   width: 100%;
+
+  margin: 0;
+  display: inline;
 }
 
 body {
@@ -10,7 +13,25 @@ body {
 	height: 100%;
 	width: 100%;
 	overflow-x: hidden;
-	overflow-y: hidden;
+	/*overflow-y: hidden;*/
+
+	margin: 0;
+  	display: inline;
+}
+
+.top {
+
+	background-color: #f5efef;
+	height: 100%;
+	width: 100%;
+	/*display: flex;*/
+}
+
+.bottom {
+
+	height: 100%;
+	width: 100%;
+	display: flex;
 }
 
 .full-height {
@@ -33,10 +54,21 @@ body {
 	hyphens: auto;
 }
 
+#intro-page {
+
+	padding-top: 25%; 
+	text-align: center;
+}
+
 #page-title {
 
 	background-color: silver;
 	color: DarkSlateGray;
+}
+
+#inter-row {
+
+	overflow-y: hidden;
 }
 
 #level-1-container {
@@ -64,7 +96,6 @@ body {
 	background-color: rgb(0,0,0); /* Black fallback color */
 	background-color: rgba(0,0,0, 0.9); /* Black w/opacity */
 	overflow-x: hidden;
-	/*transition: 0.5s;*/
 }
 
 #left-panel-content {
@@ -118,6 +149,13 @@ font-size, so the contents don't overlap
 	border-width: 1.5px;
 }
 
+#article-search-error-message {
+
+	font-size: small;
+	color: red;
+	height: 0px;
+}
+
 .event-checkbox {
 
 	background-color: #404040;
@@ -163,6 +201,7 @@ input checkbox {
 
 .accordion {
 
+	height: 100%;
 	overflow-y: auto;
 }
 
@@ -276,22 +315,6 @@ circle {
 	cursor: pointer;
 }
 
-circle:not(.article-selected) {
-	
-	opacity: 0.3;
-}
-
-.article-selected {
-
-	opacity: 2.0;
-}
-
-.zoom {
-
-	cursor: move;
-	pointer-events: all;
-}
-
 div.tooltip {
 
 	padding: 2px;
@@ -306,6 +329,13 @@ div.tooltip {
 div.tooltip > div {
 
 	text-align: center;
+}
+
+.line {
+
+    fill: none;
+    stroke: #a50f15;
+    stroke-width: 1px;
 }
 
 /*------------Right panel---------------*/
@@ -330,7 +360,7 @@ li.article-li:hover span {
 #list-top-articles, #list-top-articles .scrollable {
 
 	width: 100%;
-	max-height: 425px;  /* TODO Find a way to make it %*/
+	max-height: 425px;   /*TODO Find a way to make it % */
 	overflow-y: auto;
 }
 
@@ -339,7 +369,7 @@ li.article-li:hover span {
 	padding-top: 5%;
 	padding-left: 5%;
 	width: 95%;
-	max-height: 50%;
+	max-height: 100%;
 	word-wrap: normal;
 	overflow-y: auto;
 }
