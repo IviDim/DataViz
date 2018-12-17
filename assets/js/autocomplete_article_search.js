@@ -6,8 +6,6 @@ $(document).ready(function() {
         selector: 'input[name="article-search-bar"]',
         minChars: 1,
         source: function(term, response) {
-            
-            console.log("edw");
 
             const script = document.createElement('script');
 
@@ -20,7 +18,7 @@ $(document).ready(function() {
 
             document.body.appendChild(script);
 
-            console.log(script);
+            // console.log(script);
             response(script);
 
 

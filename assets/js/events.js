@@ -142,6 +142,16 @@ class Events {
 		scatterplot.updateHighlightedEvents();
 	}
 
+	showEventDomain(d) {
+
+		// Find event in list of selected events
+		const event = selected_events_list.filter(
+										e => e.event_id == d.event_id);
+
+		// Update brush, according to its domain
+		brush_area.setBrushSelection(event[0].domain);
+	}
+
 	// TODO Remove?
 	enableDisableCheckboxes() {
 

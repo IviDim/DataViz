@@ -338,6 +338,11 @@ div.tooltip > div {
     stroke-width: 1px;
 }
 
+.event-highlight {
+
+	cursor: pointer;
+}
+
 /*------------Right panel---------------*/
 
 
