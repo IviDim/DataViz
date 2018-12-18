@@ -4,7 +4,8 @@ class ScatterPlot {
 	constructor(svg_element_id, data, width, height, xRange) {
 		
 		// Ranges & Scales
-		const yRange = [0, (d3.max(data, d => d.view_count)) + 100000];
+		const yRange = [0, this.calculateDomainUpperBound(
+								d3.max(data, d => d.view_count))];
 		this.yRange = yRange; //Save initial yRange
 
 		this.xScale = d3.scaleTime()
@@ -319,16 +320,8 @@ class ScatterPlot {
 
     updateYAxis(data) {
 
-    	let max_value = d3.max(data, d => d.view_count);
-
-    	if (max_value > 1000000)
-    		max_value += 100000
-    	else if (max_value > 100000)
-    		max_value += 10000
-    	else
-    		max_value += 1000
-
-    	const domain = [0, max_value];
+    	const max_value = d3.max(data, d => d.view_count);
+    	const domain = [0, this.calculateDomainUpperBound(max_value)];
 
 		// Update yScale domain
 		this.yScale.domain(domain);
@@ -445,26 +438,53 @@ class ScatterPlot {
 	    					"<br/>" +
 	        			 	str + dateFormat(d.peak_date));
 
-	        const rect = d3.select("rect").node().getBoundingClientRect();
+	        const rect = $("#scatterplot").offset();
 	        const rectTopBorder = rect.top;
 	        const rectLeftBorder = rect.left;
 	        const rectRightBorder = rect.right;
+
 	        const circleLeft = $(this).offset().left;
 	        const circleTop = $(this).offset().top;
-	        const tooltipWidth = this.div.node().getBoundingClientRect().width;
-	        const tooltipHeight = this.div.node().getBoundingClientRect().height;
+
+	        const tooltipWidth = this.div.node()
+	        						 .getBoundingClientRect()
+	        						 .width;
+	        const tooltipHeight = this.div.node()
+        							  .getBoundingClientRect()
+        							  .height;
 
 	        // If the tooltip sticks out of the scatterplot's top border if
 	        // placed above the circle, it is placed under the circle instead.
 	        const tooltipTop = circleTop - 1.1 * tooltipHeight;
+
 	        if (tooltipTop < rectTopBorder)
 	        	this.div.style("top", circleTop + 0.4 * tooltipHeight + "px");
 	        else
 	        	this.div.style("top", tooltipTop + "px");
-	        
 
+	        // If the tooltip sticks out of the scatterplot's left border,
+	        // it is slightly moved to the right.
 	        const tooltipLeft = circleLeft - 0.4 * tooltipWidth;
-			this.div.style("left", tooltipLeft + "px");
+	        const diffLeft = rectLeftBorder - tooltipLeft;
+	        if (diffLeft > 0) {
+
+	        	this.div.style("left", tooltipLeft + diffLeft + 3 + "px");
+	        } else {
+
+	    		// If the tooltip sticks out of the scatterplot's right border,
+	        	// it is slightly moved to the left.
+	        	const tooltipRight = tooltipLeft + tooltipWidth;
+	    		const diffRight = tooltipRight - rectRightBorder;
+
+				if (diffRight > 0) {
+
+					this.div.style("left", tooltipLeft - diffRight - 3 + "px");
+				} else {
+
+					this.div.style("left", tooltipLeft + "px");
+				}
+	    	}
+
 		}
     }
 
@@ -494,27 +514,20 @@ class ScatterPlot {
 				.remove();
     }
 
+	/* Helping functions */
+	calculateDomainUpperBound(max_val) {
 
-    onClickArticleSearch(d) {
+		let bound = 100000000;
 
-    	function showErrorMessage() {
+		while(bound >= 1) {
 
-			const error_message = d3.select("#article-search-error-message");
-			error_message.transition()
-			  			 .style("height", "initial");
+			if (d3.max([max_val, bound]) == max_val) 
+				return max_val + bound / 10;
+			
+			bound /= 10;
+		}
 
-			error_message.transition()
-						 .delay(1000)
-						 .duration(1000)
-			 			 .style("height", "0px");
-    	}
-    	
-		const user_input = d.property("value");
-
-		const article_name = user_input.replace(/ /g, "_")
-  				   					   .replace(/'/g, "\\'");
-
-		loadArticleProgress(article_name, showErrorMessage);
+		return bound;
 	}
 }
 

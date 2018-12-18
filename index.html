@@ -9,6 +9,9 @@
   <!-- Autocomplete CSS -->
   <link rel="stylesheet" type="text/css" href="./vendor/JavaScript_autoComplete_master/auto-complete.css">
 
+  <!-- Hopscotch CSS -->
+  <link rel="stylesheet" href="./vendor/hopscotch/css/hopscotch.css"></link>
+
  	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
@@ -22,11 +25,17 @@
 </head>
 <body>
 
-	<!-- Autocomplete -->
+	<!-- Autocomplete scripts -->
 	<script type="text/javascript" src="./vendor/JavaScript_autoComplete_master/auto-complete.min.js"></script>
 
-	<!-- Bootstrap JavaScript -->
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<!-- Hopscotch scripts -->
+	<script src="./vendor/hopscotch/js/hopscotch.js"></script>
+
+<!-- JQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+	<!-- Bootstrap scripts -->
+	<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
@@ -39,6 +48,7 @@
 	<script type="text/javascript" src="./assets/js/autocomplete_article_search.js"></script>
 	<script type="text/javascript" src="./assets/js/color_cycle.js"></script>
 	<script type="text/javascript" src="./assets/js/init_viz.js"></script>
+		<script type="text/javascript" src="./assets/js/tour.js"></script>
 	<script type="text/javascript" src="./assets/js/scatterplot.js"></script>
 	<script type="text/javascript" src="./assets/js/brush_area.js"></script>
 	<script type="text/javascript" src="./assets/js/events.js"></script>
@@ -48,11 +58,11 @@
 	<script type="text/javascript" src="./assets/js/toggle_left_panel.js"></script>
 	<script type="text/javascript" src="./assets/js/article_list.js"></script>
 
-	<div id="intro-page" class="top">
+	<!-- <div id="intro-page" class="top">
 		<p> 
 			This is a data viz. 
 		</p>
-	</div>
+	</div> -->
 
 	<div class="bottom">
 	<div id="level-1-container" class="container-fluid">
@@ -99,7 +109,7 @@
 							<div class="input-group">
 									<input type="text" name="article-search-bar" id="article-search-bar" class="form-control" placeholder="e.g. Pope Francis">
 										<div class="input-group-append">
-								    	<button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="scatterplot.onClickArticleSearch(d3.select('#article-search-bar'))"> 
+								    	<button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="onClickArticleSearch(d3.select('#article-search-bar'))"> 
 								    			<i class="fas fa-search"></i>
 							    		</button>
 								  	</div>
@@ -228,7 +238,7 @@
 
 	    </div>
 
-	    <div class="col-sm-2 full-height full-width">
+	    <div class="col-sm-2 full-height full-width" id="right-panel">
 
     	<!-- List of top articles -->
     		<ul id="list-top-articles" class="list-group">

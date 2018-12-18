@@ -12,6 +12,17 @@ function whenDocumentLoaded(action) {
 
 whenDocumentLoaded(() => {
 
+	// Set event listener for search bar
+	const search_bar = document.getElementById("article-search-bar");
+	search_bar.addEventListener("keyup", function(event) {
+
+		// When user presses enter
+	  	if (event.keyCode === 13) {
+		    // click the same function as when the search button is pressed.
+	    	onClickArticleSearch(d3.select("#article-search-bar"));
+	  	}
+	});
+
 	loadTopArticlesView(initial_dates, initTopArticlesView);
 });
 
@@ -34,63 +45,66 @@ function loadTopArticlesView(domain, callback) {
 				event_category: d.category
 			};
 		})
-	.then (
-		function(event_data) {		
+	.then (function(event_data) {		
 
-			// Filter out events that fall outside the initial dates.
-			event_data = event_data.filter(d => 
-								new Date(d.event_date) >= initial_dates[0]);
-			events = new Events(event_data);
+		// Filter out events that fall outside the initial dates.
+		event_data = event_data.filter(d => 
+							new Date(d.event_date) >= initial_dates[0]);
+		events = new Events(event_data);
+	
+		// Load articles from REST API
+		// TODO Bring back 
+		const articles_url = "https://fivelinks.io/dataviz/topArticles";
+		// const articles_url = "http://0.0.0.0:5000/topArticles"; //TODO Remove
+
+		if (domain == null)
+			domain = initial_dates;
+
+		//TODO Remove
+		function createRandomDate(dom) {
+
+			let d = [];
+			if (dom[0] < initial_dates[0]) 
+				d[0] = initial_dates[0];
+			else
+				d[0] = dom[0];
+			if (dom[1] > initial_dates[1]) 
+				d[1] = initial_dates[1]; 
+			else
+				d[1] = dom[1];
+
+			return new Date(d[0].getTime() + 
+					Math.random() * (d[1].getTime() - d[0].getTime()));
+		}
+
+
+		const monthFormat = d3.timeFormat("%m");
+		const yearFormat = d3.timeFormat("%Y");
+
+		const url = articles_url + "/" + yearFormat(domain[0])
+								 + "/" + monthFormat(domain[0])
+								 + "/" + yearFormat(domain[1])	
+								 + "/" + monthFormat(domain[1]);
+
+		loadJSON(url, function(data) {
+
+			// TODO Remove
+			// Filter out article "-" and "404.php"
+			data = data.filter(d => d.article_name != "-" && 
+									d.article_name != "404.php");
+
+			// Use each article's name as its id.
+			data.forEach(d => d["article_id"] = convertToID(d["article_name"]));
+
+			// TODO Remove
+			// data.forEach(d => d["peak_date"] = createRandomDate(domain));
+
+			// TODO Bring back
+			// Convert peak date string to a date
+			data.forEach(d => d["peak_date"] = new Date(d["peak_date"]));
+
+			callback(domain, data);
 		});
-
-	// Load articles from REST API
-	// TODO Bring back 
-	// const articles_url = "https://fivelinks.io/dataviz/topArticles";
-	const articles_url = "http://0.0.0.0:5000/topArticles"; //TODO Remove
-
-	if (domain == null)
-		domain = initial_dates;
-
-	//TODO Remove
-	function createRandomDate(dom) {
-
-		let d = [];
-		if (dom[0] < initial_dates[0]) 
-			d[0] = initial_dates[0];
-		else
-			d[0] = dom[0];
-		if (dom[1] > initial_dates[1]) 
-			d[1] = initial_dates[1]; 
-		else
-			d[1] = dom[1];
-
-		return new Date(d[0].getTime() + 
-				Math.random() * (d[1].getTime() - d[0].getTime()));
-	}
-
-
-	const monthFormat = d3.timeFormat("%m");
-	const yearFormat = d3.timeFormat("%Y");
-
-	const url = articles_url + "/" + yearFormat(domain[0])
-							 + "/" + monthFormat(domain[0])
-							 + "/" + yearFormat(domain[1])	
-							 + "/" + monthFormat(domain[1]);
-
-	loadJSON(url, function(data) {
-
-		// Use each article's name as its id.
-		data.forEach(d => d["article_id"] = convertToID(d["article_name"]));
-
-		// TODO Remove
-		data.forEach(d => d["peak_date"] = createRandomDate(domain));
-
-
-		// Convert peak date string to a date
-		// data.forEach(d => d["peak_date"] = new Date(d["peak_date"]));
-
-
-		callback(domain, data);
 	});
 }
 
@@ -139,4 +153,30 @@ function updateTopArticlesView(domain, data) {
 
 	scatterplot.updateTopArticlesPlot(domain, data)
 	article_list.updateArticleList(data);
+}
+
+
+function onClickArticleSearch(d) {
+
+	function showErrorMessage() {
+
+		const error_message = d3.select("#article-search-error-message");
+		error_message.transition()
+		  			 .style("height", "initial");
+
+		error_message.transition()
+					 .delay(1000)
+					 .duration(1000)
+		 			 .style("height", "0px");
+	}
+	
+	const user_input = d.property("value");
+	// If user input only contains whitespaces, do nothing.
+	if (user_input.replace(/\s/g, "") != "") {
+
+		const article_name = user_input.replace(/ /g, "_")
+	   					   			   .replace(/'/g, "\\'");
+
+		loadArticleProgress(article_name, showErrorMessage);
+	}
 }

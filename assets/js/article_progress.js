@@ -126,11 +126,37 @@ function initSingleArticleView(article_name, callback) {
 						          	.attr("type", "button")
 						          	.classed("btn", true)
 						          	.classed("btn-light", true)
+						          	.attr("id", "return-top-articles")
 						          	.on("click", returnToTopArticles)
 					          	.append("i")
 					          		.classed("fas fa-chevron-left", true);
 
   		close_button.text(" Back to top articles");
+
+  		// Send request to get summary
+  		// TODO Put correct url
+		const summary_url = "..." + article_name;
+		let summary_text = "<br> Sorry, we couldn't find a summary for this " + 
+						   "article.";
+
+	    // TODO Bring back 
+		// loadJSON(summary_url, function(text) {
+
+			// TODO Remove
+			text = "Lorem ipsum dolor sit amet, consectetur adipiscing" +
+				   " elit, sed do eiusmod tempor incididunt ut labore" + 
+				   " et dolore magna aliqua. Ut enim ad minim veniam," + 
+				   " quis nostrud exercitation ullamco laboris nisi ut" + 
+				   " aliquip ex ea commodo consequat. Duis aute irure" + 
+				   " dolor in reprehenderit in voluptate velit esse " +
+				   "cillum dolore eu fugiat nulla pariatur. ";
+
+			summary_text =  "<br>" + text + 
+							"<a target='_blank' " + 
+							"href='https://en.wikipedia.org/wiki/" + 
+							makeURIEncoded(article_name) + "'> " +  
+							"(View more) </a>";
+		// });
 
     	// Show article summary
     	const sum = d3.select("#article-summary")
@@ -141,21 +167,7 @@ function initSingleArticleView(article_name, callback) {
 			.text(cleanArticleName(article_name));
 		
 		sum.append("div")
-			//TODO Bring back
-			// .text(d.article_summary);
-			// TODO Remove
-			.text("Lorem ipsum dolor sit amet, consectetur adipiscing" +
-				  " elit, sed do eiusmod tempor incididunt ut labore" + 
-				  " et dolore magna aliqua. Ut enim ad minim veniam," + 
-				  " quis nostrud exercitation ullamco laboris nisi ut" + 
-				  " aliquip ex ea commodo consequat. Duis aute irure" + 
-				  " dolor in reprehenderit in voluptate velit esse " +
-				  "cillum dolore eu fugiat nulla pariatur. ")
-			.append("a")
-			.attr("target", "_blank")
-			.attr("href", "https://en.wikipedia.org/wiki/" + 
-							makeURIEncoded(article_name))
-			.text("(View more)");
+			.html(summary_text);
 	}
 
 	// Show article summary
