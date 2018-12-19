@@ -30,9 +30,8 @@ whenDocumentLoaded(() => {
 function loadTopArticlesView(domain, callback) {
 
 	// Load events from csv
-	d3.dsv(",", "https://raw.githubusercontent.com/justcho5/data_viz/" +
-			"master/data/events_2013_2018_sorted.csv?" + 
-			"token=ASnk-8Z75NnbosKBlTtiLVAM_Lu4OTI7ks5b_m2QwA%3D%3D",
+	d3.dsv(",", "https://raw.githubusercontent.com/IviDim/DataViz/master" + 
+				"/data/events_2013_2018_sorted.csv",
 		function(d) {
 
 			return {
@@ -45,13 +44,18 @@ function loadTopArticlesView(domain, callback) {
 				event_category: d.category
 			};
 		})
-	.then (function(event_data) {		
+	.then (function(event_data) {
+
+		// Convert event date to type Date
+		event_data.forEach(d => d.event_date = 
+								new Date(d.event_year, 
+						 				 d.event_month_number - 1,
+						 				 1));
 
 		// Filter out events that fall outside the initial dates.
-		event_data = event_data.filter(d => 
-							new Date(d.event_date) >= initial_dates[0]);
-		events = new Events(event_data);
-	
+		event_data = event_data.filter(d => d.event_date >= initial_dates[0]);
+		events = new Events(event_data);	
+
 		// Load articles from REST API
 		// TODO Bring back 
 		const articles_url = "https://fivelinks.io/dataviz/topArticles";
