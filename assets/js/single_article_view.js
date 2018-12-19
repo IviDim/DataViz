@@ -6,7 +6,7 @@ function loadArticleProgress(article_name, callback) {
 		loadArticleProgress.article_name = article_name;
 
 	const daily_views_url = "https://wikimedia.org/api/rest_v1/metrics/pageviews/" + 
-							"per-article/en.wikipedia.org/all-access/user/";
+							"per-article/en.wikipedia.org/desktop/user/";
 
 	const monthFormat = d3.timeFormat("%m");
 	const yearFormat = d3.timeFormat("%Y");
@@ -133,41 +133,59 @@ function initSingleArticleView(article_name, callback) {
 
   		close_button.text(" Back to top articles");
 
-  		// Send request to get summary
-  		// TODO Put correct url
-		const summary_url = "..." + article_name;
-		let summary_text = "<br> Sorry, we couldn't find a summary for this " + 
-						   "article.";
-
-	    // TODO Bring back 
-		// loadJSON(summary_url, function(text) {
-
-			// TODO Remove
-			text = "Lorem ipsum dolor sit amet, consectetur adipiscing" +
-				   " elit, sed do eiusmod tempor incididunt ut labore" + 
-				   " et dolore magna aliqua. Ut enim ad minim veniam," + 
-				   " quis nostrud exercitation ullamco laboris nisi ut" + 
-				   " aliquip ex ea commodo consequat. Duis aute irure" + 
-				   " dolor in reprehenderit in voluptate velit esse " +
-				   "cillum dolore eu fugiat nulla pariatur. ";
-
-			summary_text =  "<br>" + text + 
-							"<a target='_blank' " + 
-							"href='https://en.wikipedia.org/wiki/" + 
-							makeURIEncoded(article_name) + "'> " +  
-							"(View more) </a>";
-		// });
-
-    	// Show article summary
-    	const sum = d3.select("#article-summary")
+  		// Append article name
+  		const sum = d3.select("#article-summary")
+  					  .append("div")
+  					  .attr("id", "summary-text");
     	sum.append("br");
 		sum.append("div")
 			.style("font-size", "18px")
 			.append("u")
 			.text(cleanArticleName(article_name));
+
+		// Prepare "not found" message, just in case.
+		const not_found = "<br> Sorry, we couldn't find a summary for " + 
+						  " this page.";
+
+  		// Send request to get summary
+		const summary_url = "https://fivelinks.io/dataviz/summary/" + 
+							article_name;
 		
-		sum.append("div")
-			.html(summary_text);
+		loadJSON(summary_url, function(text) {
+
+			// If summary is found, show it, else show "not found" message.
+			if (text.length > 0) {
+
+				const summary_text = "<br>" + text[0].summary + 
+						     		 "<a target='_blank' " + 
+							     	 "href='https://en.wikipedia.org/wiki/" + 
+							     	 makeURIEncoded(article_name) + "'> " +  
+							     	 "(View more) </a>";
+
+			 	// Append article summary
+				sum.append("div")
+					.html(summary_text);
+
+			} else {
+
+				const message = not_found + "<br>" +
+								"<a target='_blank' " + 
+							     "href='https://en.wikipedia.org/wiki/" + 
+							     makeURIEncoded(article_name) + "'> " +  
+							     "(View page) </a>";
+
+				// Append not found message
+				sum.append("div")
+				   .html(message);
+			}
+
+		// If loadJSON function returns 404, show "not found message".
+		}, function() {
+
+			// Append not found message
+			sum.append("div")
+				.html(not_found);
+		});
 	}
 
 	// Show article summary

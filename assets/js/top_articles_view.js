@@ -60,24 +60,6 @@ function loadTopArticlesView(domain, callback) {
 		if (domain == null)
 			domain = initial_dates;
 
-		//TODO Remove
-		function createRandomDate(dom) {
-
-			let d = [];
-			if (dom[0] < initial_dates[0]) 
-				d[0] = initial_dates[0];
-			else
-				d[0] = dom[0];
-			if (dom[1] > initial_dates[1]) 
-				d[1] = initial_dates[1]; 
-			else
-				d[1] = dom[1];
-
-			return new Date(d[0].getTime() + 
-					Math.random() * (d[1].getTime() - d[0].getTime()));
-		}
-
-
 		const monthFormat = d3.timeFormat("%m");
 		const yearFormat = d3.timeFormat("%Y");
 
@@ -96,10 +78,31 @@ function loadTopArticlesView(domain, callback) {
 			// Use each article's name as its id.
 			data.forEach(d => d["article_id"] = convertToID(d["article_name"]));
 
-			// TODO Remove
-			// data.forEach(d => d["peak_date"] = createRandomDate(domain));
+			// Convert peak date string to a date
+			data.forEach(d => d["peak_date"] = new Date(d["peak_date"]));
 
-			// TODO Bring back
+			// Sort data on ascending peak date and view count, so that
+			// circles are visualized in a more ordered fashion.
+			data.sort(function (d1, d2) {
+
+				if (d1["peak_date"] < d2["peak_date"]) {
+
+					return -1;
+				}
+				else if (d1["peak_date"] == d2["peak_date"]) {
+
+					if (d1["view_count"] < d2["view_count"])
+						return 1
+					else if (d1["view_count"] == d2["view_count"])
+						return 0
+					else
+						return -1;
+				} else {
+
+					return 1;
+				}
+			})
+
 			// Convert peak date string to a date
 			data.forEach(d => d["peak_date"] = new Date(d["peak_date"]));
 

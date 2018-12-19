@@ -365,7 +365,7 @@ li.article-li:hover span {
 #list-top-articles, #list-top-articles .scrollable {
 
 	width: 100%;
-	max-height: 425px;   /*TODO Find a way to make it % */
+	max-height: 600px;
 	overflow-y: auto;
 }
 
@@ -374,7 +374,12 @@ li.article-li:hover span {
 	padding-top: 5%;
 	padding-left: 5%;
 	width: 95%;
-	max-height: 100%;
+	max-height: 600px;
+}
+
+#summary-text {
+
+	max-height: 600px;
 	word-wrap: normal;
 	overflow-y: auto;
 }

@@ -10,6 +10,7 @@ function convertToID(article_name) {
 	return article_name.replace(/\W/g, "_");
 }
 
+// Make article name uri encoded.
 function makeURIEncoded(article_name) {
 
 	return article_name.replace(/\\/g, "")

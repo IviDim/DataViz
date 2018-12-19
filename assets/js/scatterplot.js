@@ -88,13 +88,13 @@ class ScatterPlot {
 					  		.attr("offset", d => d.offset)
 						  	.attr("stop-color", d => d.color);
 
-      	 this.focus_area.append("rect")
-      	 				.attr("id", "color-legend")
-      	 				.attr("x", -14)
-      	 				.attr("y", -10)
-      	 				.attr("width", 14)
-      	 				.attr("height", height)
-      	 				.style("fill", "url(#linear-gradient)");
+      	this.color_legend = this.focus_area.append("rect")
+		      	 				.attr("id", "color-legend")
+		      	 				.attr("x", -14)
+		      	 				.attr("y", -10)
+		      	 				.attr("width", 14)
+		      	 				.attr("height", height)
+		      	 				.style("fill", "url(#linear-gradient)");
 
 		// Append Y axis
 		this.focus_area.append("g")
@@ -102,12 +102,14 @@ class ScatterPlot {
 			      		.call(this.yAxis);
 	}
 
+	// Update plot when the top articles view is on.
 	updateTopArticlesPlot(dom, data) {
 
 		// Update x axis
 		this.updateXAxis(dom);
 
-		// Note: In the top articles view, the y axis is kept fixed.
+		// TODO Keep y axis fixed in this view?
+		this.updateYAxis(data);
 
 		// Update highlighted events
 		this.updateHighlightedEvents();
@@ -119,12 +121,16 @@ class ScatterPlot {
 	  	// Deselect selected circles
 		const circles_clicked = d3.selectAll(".article-clicked");
 
-		circles_clicked.attr("r", 2.5)
+		circles_clicked.attr("r", circle_radius)
 					   .style("stroke", "#484747")
 					   .style("stroke-width", "0.2");
 
+	   	// TODO Remove, if the one bellow is ok
     	circles_clicked.classed("article-clicked", false);
 
+    	// TODO Check if ok
+    	// Remove all classes from circle
+    	circles_clicked.attr("class", "");
 
 		// Update circles
 		let circles = this.circles_area.selectAll("circle")
@@ -153,7 +159,7 @@ class ScatterPlot {
 			        .on("click", this.onClickCircle)
 			        .on("contextmenu", this.onRightClickCircle)
   				.transition()
-					.attr("r", 2.5);
+					.attr("r", circle_radius);
 		
 		// Exit() 
 		circles.exit()
@@ -162,6 +168,7 @@ class ScatterPlot {
 				.remove();
 	}
 
+	// Update plot when the single article view is on.
 	updateSingleArticlePlot(dom, data) {
 
 		// Update x axis
@@ -234,16 +241,19 @@ class ScatterPlot {
 				.remove();
     }
 
-    updateArticleNeighboursPlot(nodes, links) {
+    // Update plot when article neighbours are showing.
+    updateArticleNeighboursPlot(nodes, links, article_name) {
 
-    	// Highlight selected article and neighbours
+    	// Highlight selected circle and neighbours
     	nodes.forEach(function(n) {
 
-    		const c = d3.select("#article_" + n.node)
-    					.classed("article-clicked", true);
+    		const c = d3.select("#article_" + n)
+    					.classed("article-clicked", true)
+    					.classed("neighbour-of-" + 
+								  convertToID(article_name), true);
 
 			c.transition()
-  			 .attr("r", 2.7)
+  			 .attr("r", circle_radius + 0.2)
 			 .style("stroke", "Goldenrod")
 			 .style("stroke-width", "0.8");
 
@@ -259,6 +269,8 @@ class ScatterPlot {
 						 .append("path")
 						 .attr("d", line(links))
 						 .classed("link", true)
+						 .classed("link-of-" + convertToID(article_name), 
+			 					   true)
 						 .attr("id", (d, i) => "link_" + i)
 					  	 .attr("stroke", "Goldenrod")
 				      	 .attr("stroke-opacity", 0.6)
@@ -269,7 +281,7 @@ class ScatterPlot {
 	    path.attr("stroke-dasharray", totalLength + " " + totalLength)
 			.attr("stroke-dashoffset", totalLength)
 			.transition()
-			.duration(1000)
+			.duration(500)
 			.attr("stroke-dashoffset", 0);
     }
 
@@ -308,6 +320,13 @@ class ScatterPlot {
 	   	  .transition()
 	   	  .style("stroke-opacity", "0")
 	   	  .remove();
+
+		// Remove all trailing tooltips
+	   	d3.selectAll(".tooltip")
+   		  .transition()		
+		  .duration(500)
+		  .style("opacity", 0)
+		  .remove(); 
     }
 
     resetYAxis() {
@@ -316,6 +335,11 @@ class ScatterPlot {
     	this.yScale.domain(this.yRange);
     	// Update y axis
 		this.focus_area.select(".axis.axis-y").call(this.yAxis);
+		// Update color gradient
+		const grad_scale = [this.yRange[0], 
+						   (this.yRange[0] + this.yRange[1])/2, 
+						    this.yRange[1]];
+		this.color_gradient.domain(grad_scale);
     }
 
     updateYAxis(data) {
@@ -328,8 +352,11 @@ class ScatterPlot {
 
 		// Update y axis
 		this.focus_area.select(".axis.axis-y").call(this.yAxis);
-    }
 
+		// Update color gradient
+		const grad_scale = [domain[0], (domain[0] + domain[1])/2, domain[1]]
+		this.color_gradient.domain(grad_scale);
+    }
 
     updateHighlightedEvents() {
 
@@ -382,7 +409,7 @@ class ScatterPlot {
 
 		// Highlight selected circle
 		selected_circle.transition()
-				.attr("r", 2.7)
+				.attr("r", circle_radius + 0.2)
 				.style("stroke", "Goldenrod")
 				.style("stroke-width", "0.8");
 				
@@ -394,10 +421,50 @@ class ScatterPlot {
     }
 
 
-    // Function to be called when user clicks on a circle
+    // Function to be called when user right clicks on a circle
     onRightClickCircle(d) {
-				
-    	loadArticleNeighbours(d.article_name);
+		
+    	function removeArticleNeighbours(article_id) {
+
+	    	// Remove highlight of selected article and neighbours, if they 
+	    	// are not neighbours of other articles as well.
+	    	const neighbours = d3.selectAll(".neighbour-of-" + article_id);
+	    	neighbours.each(function(d) {
+
+	    		const n = d3.select(this);
+	    		n.classed("neighbour-of-" + article_id, false);
+	    		if (!n.attr("class").includes("neighbour-of-")) {
+
+	    			n.classed("article-clicked", false);
+	    			n.transition()
+		  			 .attr("r", circle_radius)
+					 .style("stroke", "#484747")
+					 .style("stroke-width", "0.2");
+	    		}
+	    	});
+
+	    	// Remove links between clicked article and neighbours
+	    	d3.selectAll(".link-of-" + article_id)
+			  .transition()
+	   	  	  .style("stroke-opacity", "0")
+   	      	  .remove();
+	    }
+
+		const article_id = convertToID(d.article_name);
+		const selected_circle = d3.select("#article_" + article_id);
+
+		// If this is the second time this circle is right clicked,
+		// hide neighbours.
+		if ((selected_circle.attr("class") != null) && 
+			(selected_circle.attr("class").includes("neighbour-of-" + 
+														article_id))) {
+
+			removeArticleNeighbours(article_id);
+		// Otherwise, show neighbours
+		} else {
+
+			loadArticleNeighbours(d.article_name);
+		}	
     }
 
 	// Function to be called when user hovers over a circle - shows tooltip
@@ -497,7 +564,7 @@ class ScatterPlot {
     	// Bring selected circle to its initial form
 		if (circle.classed("article-clicked") != true) {
 
-			let r = 2.5;
+			let r = circle_radius;
             if (state === "SingleArticle")
             	r = 2;
 

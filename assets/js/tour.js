@@ -64,44 +64,20 @@ let tour = {
                   .classed("show", true);
                 // TODO Change event 
                 // Select event 
-                d3.select("#event21")
+                d3.select("#event55")
                     .property("checked", true)
                     .dispatch("click");
 
             }
         },
         {
-            // TODO Remove!!!!
-            target: "scatterplot",
-            title: "Blank",
-            content: "Blank",
-            placement: "right",
-            width: 200,
-            xOffset: -30,
-            yOffset: 500,
-            showNextButton: true,
-            onNext: function() {
-                
-                // In case the user has gone to single article view,
-                // go back to top articles view.
-                d3.select("#return-top-articles")
-                  .dispatch("click");
-
-                const domain = [];
-                domain[0] = new Date(2014, 0, 1);
-                domain[1] = new Date(2018, 10, 1);
-                brush_area.setBrushSelection(domain);
-            }
-        },
-        {
-            target: "scatterplot",
+            target: "button-addon2",
             title: "Select event.",
             content: "... or by selecting an event, " + 
                      " from the sidepanel on the left, to change the " + 
                      "selected period to the event's month of occurrence.",
             placement: "right",
-            width: 200,
-            xOffset: -30,
+            yOffset: 100,
             showNextButton: true,
             onNext: function() {
 
@@ -110,18 +86,18 @@ let tour = {
                 d3.select("#return-top-articles")
                   .dispatch("click");
 
-                d3.select("#article_World_War_I")
+                d3.select("#article_Darth_Vader")
                     .dispatch("mouseover");
             }
         },
         {
-            target: "article_World_War_I",  //TODO Change appropriately
+            target: "article_Darth_Vader",  //TODO Change appropriately
             title: "Hover",
             content: "When you hover over a circle, you can see the " + 
-                     "number of total views of the article and the day, " + 
+                     "number of total views of the article, and the day, " + 
                      "on which, it was most viewed.",
             placement: "right",
-            xOffset: 5,
+            xOffset: 50,
             yOffset: -25,
             showNextButton: true,
             onNext: function() {
@@ -131,12 +107,12 @@ let tour = {
                 d3.select("#return-top-articles")
                   .dispatch("click");
 
-                d3.select("#article_World_War_I")
+                d3.select("#article_Darth_Vader")
                   .dispatch("mouseout");
             }
         }, 
         {
-            target: "article_World_War_I",  //TODO Change appropriately
+            target: "article_Darth_Vader",  //TODO Change appropriately
             title: "Left click",
             content: "When you left click on a circle, you see the view " + 
                      "progress of the article through time.",
@@ -151,8 +127,13 @@ let tour = {
                 d3.select("#return-top-articles")
                   .dispatch("click");
 
-                d3.select("#article_World_War_I")
+                d3.select("#article_Darth_Vader")
                   .dispatch("click");
+
+                const domain = [];
+                domain[0] = new Date(2017, 5, 1);
+                domain[1] = new Date(2018, 5, 1);
+                brush_area.setBrushSelection(domain);
             }
         },
         {
@@ -188,7 +169,7 @@ let tour = {
             }
         },
         {
-            target: "article_World_War_I",  //TODO Change appropriately
+            target: "article_Darth_Vader",  //TODO Change appropriately
             title: "Right click",
             content: "Finally, by right clicking on a circle, you can see if " +
                       "any of the linked articles of this article, are also " +
@@ -204,7 +185,7 @@ let tour = {
                 d3.select("#return-top-articles")
                   .dispatch("click");
 
-                d3.select("#article_World_War_I")
+                d3.select("#article_Darth_Vader")
                   .dispatch("contextmenu");
             }
         },

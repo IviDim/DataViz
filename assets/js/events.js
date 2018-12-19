@@ -94,11 +94,11 @@ class Events {
 		const date = new Date(event_date);
 
 		const domain = [new Date(yearFormat(date),
-								 monthFormat(date) - 1,
-								 1),
-						new Date(yearFormat(date),
-								 monthFormat(date),
-								 0)];
+						   monthFormat(date) - 1,
+						   1),
+				  new Date(yearFormat(date),
+						   monthFormat(date),
+						   0)];
 
 		// Add selected event to list
 		selected_events_list.push({'event_id': id, 
