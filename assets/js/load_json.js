@@ -1,8 +1,8 @@
 function loadJSON(url, callback, callback2) {
 
-	var xhttp = new XMLHttpRequest();
+    var xhttp = new XMLHttpRequest();
 
-	xhttp.onreadystatechange = function() {
+    xhttp.onreadystatechange = function () {
 
         if (this.readyState == 4) {
 
@@ -12,12 +12,12 @@ function loadJSON(url, callback, callback2) {
                 callback(data);
             } else {
 
-           		if (callback2 != undefined)
-           			callback2();
+                if (callback2 != undefined)
+                    callback2();
             }
         }
     };
 
-	xhttp.open("GET", url, true);
-	xhttp.send();
+    xhttp.open("GET", url, true);
+    xhttp.send();
 };

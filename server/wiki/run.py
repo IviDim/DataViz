@@ -14,6 +14,7 @@ character_to_month = {
 # Match for numbers, compile here for perfromance reasons
 pattern = re.compile(r"\d+")
 
+
 def month_day_count(one_day):
     last_letter_index = 1  # because the first one is the day in month
     numbers = re.findall(pattern, one_day)
@@ -43,12 +44,12 @@ def clean_file(input_file, output_file):
                 if (total_sum >= 10000):
                     output_file.write("{};{};{}\n".format(title, count, peak_day))
 
+
 def main():
     for file in tqdm(os.listdir('.')):
         clean_file(file, )
         print(files)
 
+
 if __name__ == "__main__":
     main()
-
-

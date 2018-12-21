@@ -1,168 +1,170 @@
 class Events {
 
-	constructor(event_data) {
+    constructor(event_data) {
 
-		const categories = ["Politics", "Social", "Science", "Sports", "Viral"];
-		this.color_stack = ["#7F4145", "#766F57", "#D2C29D", "#DEB887"]
-		this.num_selected = 0;
-		this.max_selected = 1;
-		this.cc = colorCycle(this.color_stack);
+        const categories = ["Politics", "Social", "Science", "Sports", "Viral"];
+        this.color_stack = ["#7F4145", "#766F57", "#D2C29D", "#DEB887"]
+        this.num_selected = 0;
+        this.max_selected = 1;
+        this.cc = colorCycle(this.color_stack);
 
-		// Append a checkbox for each event, in the appropriate category
-		categories.map(categ => event_data.filter(
-											x => x.event_category === categ))
-					.forEach(function(arr, index) {
+        // Append a checkbox for each event, in the appropriate category
+        categories.map(categ => event_data.filter(
+            x => x.event_category === categ))
+            .forEach(function (arr, index) {
 
-			const li = d3.select("#events-" + categories[index].toLowerCase())
-						.select(".card-body")
-						.select("ul")
-						.selectAll(".event-checkbox")
-						.data(arr, d => d.event_id);
-						
-			// Enter()
-			const li_enter = li.enter()
-								.append("li")
-									.classed("list-group-item", true)
-									.classed("event-checkbox", true)
-									.classed("inline-field", true);
-						
-			li_enter.append("input")
-					.attr("type", "checkbox")
-					.attr("id", d => "event" + d.event_id)
-					.attr("onclick", 
-						d => "events.onClickEventCheckbox('" 
-													+ d.event_id + "', '" 
-											 		+ d.event_name + "', '"
-											 		+ d.event_date + "')");
+                const li = d3.select("#events-" + categories[index].toLowerCase())
+                    .select(".card-body")
+                    .select("ul")
+                    .selectAll(".event-checkbox")
+                    .data(arr, d => d.event_id);
 
-			li_enter.append("label")
-					.attr("for", d => "event" + d.event_id)
-					.text(d => d.event_name + 
-						" [" + d.event_month + " " + d.event_year +"]");
+                // Enter()
+                const li_enter = li.enter()
+                    .append("li")
+                    .classed("list-group-item", true)
+                    .classed("event-checkbox", true)
+                    .classed("inline-field", true);
 
-			// Exit()
-			li.exit()
-				.remove();
-		});
-	}
+                li_enter.append("input")
+                    .attr("type", "checkbox")
+                    .attr("id", d => "event" + d.event_id)
+                    .attr("onclick",
+                        d => "events.onClickEventCheckbox('"
+                            + d.event_id + "', '"
+                            + d.event_name + "', '"
+                            + d.event_date + "')");
+
+                li_enter.append("label")
+                    .attr("for", d => "event" + d.event_id)
+                    .text(d => d.event_name +
+                        " [" + d.event_month + " " + d.event_year + "]");
+
+                // Exit()
+                li.exit()
+                    .remove();
+            });
+    }
 
 
-	onClickEventCheckbox(id, name, event_date) {
-	
-		const checkbox = document.getElementById("event" + id)
+    onClickEventCheckbox(id, name, event_date) {
 
-		if (checkbox.checked)
-			this.selectEvent(id, name, event_date);
-		else
-			this.deselectEvent(id);
-	}
+        const checkbox = document.getElementById("event" + id)
 
-	selectEvent(id, name, event_date) {
+        if (checkbox.checked)
+            this.selectEvent(id, name, event_date);
+        else
+            this.deselectEvent(id);
+    }
 
-		const jumb = d3.select("#selected-events-jumb");
+    selectEvent(id, name, event_date) {
 
-		// TODO Remove, if we will allow the selection of multiple events
-		// Deselect previously selected events
-		d3.selectAll(".event-badge")
-			.dispatch("click");
+        const jumb = d3.select("#selected-events-jumb");
 
-		// Get color from the top of the color stack
-		const color = this.color_stack.pop();
+        // TODO Remove, if we will allow the selection of multiple events
+        // Deselect previously selected events
+        d3.selectAll(".event-badge")
+            .dispatch("click");
 
-		// Add event badge to jumbotron
-		jumb.append("button")
-				.classed("badge", true)
-				.classed("badge-pill", true)
-				.classed("event-badge", true)
-				.attr("id", "badge" + id)
-				.attr("style", "background-color: " + color)
-				.attr("onclick", "events.deselectEvent(" + id + ")")
-				.text(name + " ")
-			.append("i")
-				.classed("fa", true)
-				.classed("fa-times", true);
+        // Get color from the top of the color stack
+        const color = this.color_stack.pop();
 
-		// TODO Bring back if we will allow multiple selected events
-		// Check if the selected events are the maximum possible, and 
-		// disable all others
-		// this.num_selected++;
-		// this.enableDisableCheckboxes();
+        // Add event badge to jumbotron
+        jumb.append("button")
+            .classed("badge", true)
+            .classed("badge-pill", true)
+            .classed("event-badge", true)
+            .attr("id", "badge" + id)
+            .attr("style", "background-color: " + color)
+            .attr("onclick", "events.deselectEvent(" + id + ")")
+            .text(name + " ")
+            .append("i")
+            .classed("fa", true)
+            .classed("fa-times", true);
 
-		// Determine event's domain
-		const monthFormat = d3.timeFormat("%m");
-		const yearFormat = d3.timeFormat("%Y");
-		const date = new Date(event_date);
+        // TODO Bring back if we will allow multiple selected events
+        // Check if the selected events are the maximum possible, and
+        // disable all others
+        // this.num_selected++;
+        // this.enableDisableCheckboxes();
 
-		const domain = [new Date(yearFormat(date),
-							     monthFormat(date) - 1,
-							     1),
-					    new Date(yearFormat(date),
-							     monthFormat(date),
-							     0)];
+        // Determine event's domain
+        const monthFormat = d3.timeFormat("%m");
+        const yearFormat = d3.timeFormat("%Y");
+        const date = new Date(event_date);
 
-		// Add selected event to list
-		selected_events_list.push({'event_id': id, 
-						  		   'domain': domain, 
-					     		   'color': color});
+        const domain = [new Date(yearFormat(date),
+            monthFormat(date) - 1,
+            1),
+            new Date(yearFormat(date),
+                monthFormat(date),
+                0)];
 
-		// Update brush appropriately, so that the new event is included.
-		brush_area.setBrushSelection(domain);
-	}
+        // Add selected event to list
+        selected_events_list.push({
+            'event_id': id,
+            'domain': domain,
+            'color': color
+        });
 
-	deselectEvent(id) {
+        // Update brush appropriately, so that the new event is included.
+        brush_area.setBrushSelection(domain);
+    }
 
-		const jumb = d3.select("#selected-events-jumb");
-		const badge = jumb.select("#badge" + id);
-		
-		// Add background color back to the stack
-		this.color_stack.push(badge.style("background-color"));
+    deselectEvent(id) {
 
-		// Remove badge from jumbotron
-		badge.remove();
+        const jumb = d3.select("#selected-events-jumb");
+        const badge = jumb.select("#badge" + id);
 
-		// Uncheck checkbox, if not already unchecked
-		d3.select("#event" + id)
-		  .property("checked", false);
+        // Add background color back to the stack
+        this.color_stack.push(badge.style("background-color"));
 
-	  	// TODO Bring back if we will allow multiple selected events 
-		// Check if there are less than the maximum selected events, and 
-		// re-enable all others
-		// this.num_selected--;
-		// this.enableDisableCheckboxes();
+        // Remove badge from jumbotron
+        badge.remove();
 
-		// Remove event from list
-		selected_events_list = selected_events_list.filter(
-										e => e.event_id != id);
+        // Uncheck checkbox, if not already unchecked
+        d3.select("#event" + id)
+            .property("checked", false);
 
-		// Update highligted events 
-		scatterplot.updateHighlightedEvents();
-	}
+        // TODO Bring back if we will allow multiple selected events
+        // Check if there are less than the maximum selected events, and
+        // re-enable all others
+        // this.num_selected--;
+        // this.enableDisableCheckboxes();
 
-	showEventDomain(d) {
+        // Remove event from list
+        selected_events_list = selected_events_list.filter(
+            e => e.event_id != id);
 
-		// Find event in list of selected events
-		const event = selected_events_list.filter(
-										e => e.event_id == d.event_id);
+        // Update highligted events
+        scatterplot.updateHighlightedEvents();
+    }
 
-		// Update brush, according to its domain
-		brush_area.setBrushSelection(event[0].domain);
-	}
+    showEventDomain(d) {
 
-	// TODO Remove?
-	enableDisableCheckboxes() {
+        // Find event in list of selected events
+        const event = selected_events_list.filter(
+            e => e.event_id == d.event_id);
 
-		if (this.num_selected >= this.max_selected) {
+        // Update brush, according to its domain
+        brush_area.setBrushSelection(event[0].domain);
+    }
 
-			d3.selectAll(".event-checkbox")
-				.selectAll("input[type='checkbox']:not(:checked)")
-				.property("disabled", true);
+    // TODO Remove?
+    enableDisableCheckboxes() {
 
-		} else if (this.num_selected == this.max_selected - 1) {
+        if (this.num_selected >= this.max_selected) {
 
-			d3.selectAll(".event-checkbox")
-				.selectAll("input[type='checkbox']")
-				.property("disabled", false);
-		}
-	}
+            d3.selectAll(".event-checkbox")
+                .selectAll("input[type='checkbox']:not(:checked)")
+                .property("disabled", true);
+
+        } else if (this.num_selected == this.max_selected - 1) {
+
+            d3.selectAll(".event-checkbox")
+                .selectAll("input[type='checkbox']")
+                .property("disabled", false);
+        }
+    }
 
 }

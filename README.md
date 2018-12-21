@@ -1,5 +1,7 @@
+
 # data_viz
 Website url: https://ividim.github.io/DataViz/
+
 
 
 ### 1. Download files
@@ -18,13 +20,5 @@ This command get english articles and write it in a separate file
 ### 4. Get peakday
 Execute the wiki/run.py which will keep only articles with certain amount of views and write them in a separate file.
 > python run.py
-
-
-## Issues:
-
-- no mobile view
-- keep only articles with >10k views
-
-
 
 
