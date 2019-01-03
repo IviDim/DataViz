@@ -21,7 +21,7 @@ let tour = {
             target: "scatterplot",
             title: "Top 50 articles",
             content: "In this view, you can see the top 50 most viewed " +
-                " Wikipedia articles for 2017-2018.",
+                " Wikipedia articles for 2016-2018.",
             placement: "right",
             width: 200,
             xOffset: -30,
